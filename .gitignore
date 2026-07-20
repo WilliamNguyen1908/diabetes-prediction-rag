@@ -17,6 +17,9 @@ knowledge/md/
 # macOS junk
 .DS_Store
 
+# Local-only project notes
+CLAUDE.md
+
 # Secrets — API keys for the cloud eval judge
 .env
 

@@ -29,7 +29,7 @@ locally; no patient data leaves the machine.
 
 Every stage below was a deliberate choice over a more common default, usually
 after trying the default and watching it fail. Full history in
-[workflow.md](workflow.md) and [CLAUDE.md](CLAUDE.md).
+[workflow.md](workflow.md).
 
 | Stage | What this project does | Instead of | Why |
 |---|---|---|---|
@@ -139,7 +139,7 @@ Rebuild the vector index only when the PDFs change:
 | `rag/validation.py`, `rag/grounding.py` | Input/output guardrails, NLI grounding check |
 | `rag/eval/` | Evaluation suite: retrieval metrics, LLM-as-judge, generator A/B |
 | `db.py` | SQLite audit log of every recommendation request |
-| `CLAUDE.md` / `workflow.md` | Full architecture docs: pipeline map, design history, function reference |
+| `workflow.md` | Full architecture docs: pipeline map, design history, function reference |
 
 ## Disclaimer
 
