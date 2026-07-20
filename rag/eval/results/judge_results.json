@@ -1,0 +1,270 @@
+{
+  "summary": {
+    "judge": "claude-sonnet-4-6",
+    "n": 43,
+    "faithfulness": 0.8657530454042083,
+    "answer_relevancy": 0.45,
+    "n_scored_faithfulness": 43,
+    "n_scored_relevancy": 43
+  },
+  "rows": [
+    {
+      "question": "What HbA1c level is used to diagnose diabetes?",
+      "pillar": "classify",
+      "faithfulness": 0.7142857142857143,
+      "answer_relevancy": 0.7
+    },
+    {
+      "question": "What fasting plasma glucose value diagnoses diabetes?",
+      "pillar": "classify",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.1
+    },
+    {
+      "question": "What 2-hour OGTT glucose value diagnoses diabetes?",
+      "pillar": "classify",
+      "faithfulness": 0.3333333333333333,
+      "answer_relevancy": 0.2
+    },
+    {
+      "question": "What A1C range defines prediabetes?",
+      "pillar": "classify",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8
+    },
+    {
+      "question": "What are the impaired fasting glucose and impaired glucose tolerance ranges?",
+      "pillar": "classify",
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "At what age should adults without risk factors begin screening for type 2 diabetes?",
+      "pillar": "screening",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8
+    },
+    {
+      "question": "If diabetes screening is normal, how often should it be repeated?",
+      "pillar": "screening",
+      "faithfulness": 0.6666666666666666,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "Which risk factors warrant diabetes screening in an overweight adult of any age?",
+      "pillar": "screening",
+      "faithfulness": 0.6666666666666666,
+      "answer_relevancy": 0.2
+    },
+    {
+      "question": "Does a single abnormal test confirm a diabetes diagnosis?",
+      "pillar": "classify",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.1
+    },
+    {
+      "question": "What are the main clinical categories of diabetes?",
+      "pillar": "classify",
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.1
+    },
+    {
+      "question": "What weight-loss and activity targets does a diabetes prevention program aim for?",
+      "pillar": "prevent",
+      "faithfulness": 0.9166666666666666,
+      "answer_relevancy": 0.85
+    },
+    {
+      "question": "What eating pattern is recommended to prevent type 2 diabetes in people with prediabetes?",
+      "pillar": "diet",
+      "faithfulness": 0.8571428571428571,
+      "answer_relevancy": 0.85
+    },
+    {
+      "question": "Who should be considered for metformin to prevent type 2 diabetes?",
+      "pillar": "medication",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "What medication can delay the onset of stage 3 type 1 diabetes?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "Which glucose-lowering drugs should be avoided in patients at high fracture risk?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.1
+    },
+    {
+      "question": "What test is used to screen for liver fibrosis risk in type 2 diabetes?",
+      "pillar": "comorbidity",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "What is the first-line treatment for erectile dysfunction in men with diabetes?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7
+    },
+    {
+      "question": "How should diabetes treatment be adjusted in a patient with cognitive impairment?",
+      "pillar": "medication",
+      "faithfulness": 0.7142857142857143,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "What is the recommended daily sodium limit for people with diabetes?",
+      "pillar": "diet",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9
+    },
+    {
+      "question": "How much dietary fiber is recommended?",
+      "pillar": "diet",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8
+    },
+    {
+      "question": "How much aerobic physical activity is recommended for adults with diabetes?",
+      "pillar": "lifestyle",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.95
+    },
+    {
+      "question": "How often should adults with diabetes do resistance exercise?",
+      "pillar": "lifestyle",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.95
+    },
+    {
+      "question": "Is a ketogenic diet safe for a patient taking an SGLT2 inhibitor?",
+      "pillar": "medication",
+      "faithfulness": 0.6666666666666666,
+      "answer_relevancy": 0.5
+    },
+    {
+      "question": "What is the most effective pharmacotherapy for smoking cessation in people with diabetes?",
+      "pillar": "lifestyle",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.85
+    },
+    {
+      "question": "How should prandial insulin be adjusted for a meal followed by religious fasting?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8
+    },
+    {
+      "question": "What is the general A1C target for many nonpregnant adults?",
+      "pillar": "safety",
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "What continuous glucose monitoring time-in-range goal is recommended?",
+      "pillar": "safety",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.1
+    },
+    {
+      "question": "How should hypoglycemia be treated?",
+      "pillar": "safety",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5
+    },
+    {
+      "question": "Which diabetes medications carry the highest risk of hypoglycemia?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7
+    },
+    {
+      "question": "Which medications should be held during an acute illness when the patient cannot maintain oral intake?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6
+    },
+    {
+      "question": "What is the preferred anti-obesity pharmacotherapy in people with diabetes and overweight or obesity?",
+      "pillar": "medication",
+      "faithfulness": 0.625,
+      "answer_relevancy": 0.7
+    },
+    {
+      "question": "When should metabolic (bariatric) surgery be considered in type 2 diabetes?",
+      "pillar": "medication",
+      "faithfulness": 0.6666666666666666,
+      "answer_relevancy": 0.3
+    },
+    {
+      "question": "What insulin delivery method is recommended for most adults with type 1 diabetes?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6
+    },
+    {
+      "question": "Which glucose-lowering drug is recommended for a patient with type 2 diabetes and heart failure?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "Which glucose-lowering drug is preferred for type 2 diabetes with advanced chronic kidney disease?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "question": "What is the first-line blood pressure medication for a person with diabetes, hypertension, and albuminuria?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "What statin intensity is recommended for a person with diabetes and established cardiovascular disease (e.g., prior heart attack or stroke)?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "Should a patient with diabetes and a prior cardiovascular event take aspirin?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8
+    },
+    {
+      "question": "What additional drug reduces CKD progression and cardiovascular events in diabetes with albuminuria?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.3
+    },
+    {
+      "question": "What medications are recommended first-line for painful diabetic neuropathy?",
+      "pillar": "medication",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.7
+    },
+    {
+      "question": "What is the A1C goal for a healthy older adult with diabetes?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "What glycemic approach is recommended for an older adult with very complex or poor health?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4
+    },
+    {
+      "question": "When should pharmacologic therapy be started for a child or adolescent diagnosed with type 2 diabetes?",
+      "pillar": "medication",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.0
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Never bake secrets or local state into the image
+.env
+recommendation_log.db
+.git
+.venv
+__pycache__
+**/__pycache__
+*.py[oc]
+.DS_Store
+
+# Training data / notebooks — not needed at runtime
+diabetes.csv
+model.ipynb
+
+# RAG build inputs/intermediates — the image ships only the prebuilt knowledge/index/
+knowledge/pdfs
+knowledge/md
+
+# Eval suite and docs — not needed in the runtime image
+rag/eval
+*.md
+!README.md

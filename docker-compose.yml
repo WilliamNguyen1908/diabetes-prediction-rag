@@ -1,0 +1,33 @@
+# App + Ollama, wired together.
+#
+#   docker compose up -d --build
+#   docker compose exec ollama ollama pull llama3.1   # one-time, ~4.7 GB
+#   open http://localhost:8000
+#
+# To generate with Claude instead of the local model, create a .env next to this
+# file containing ANTHROPIC_API_KEY=... and uncomment the two lines below.
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      # GENERATOR_MODEL: claude-sonnet-4-6
+      # ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    volumes:
+      - app-data:/data          # persists recommendation_log.db across restarts
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-models:/root/.ollama   # persists pulled models (llama3.1)
+    restart: unless-stopped
+
+volumes:
+  app-data:
+  ollama-models:

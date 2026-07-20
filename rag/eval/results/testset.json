@@ -1,0 +1,518 @@
+[
+  {
+    "user_input": "What HbA1c level is used to diagnose diabetes?",
+    "reference": "Diabetes is diagnosed at an A1C of 6.5% (48 mmol/mol) or higher, measured with an NGSP-certified, DCCT-standardized assay. Without unequivocal hyperglycemia, confirm with repeat testing.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > _Recommendations_\n\n|A1C≥6.5% (≥48 mmol/mol). The test should be performed in a laboratory using a method that is NGSP certifed and standardized to the DCCT assay.* OR| |---| |FPG≥126 mg/dL (≥7.0 mmol/L). Fasting is defned as no caloric intake for at least 8 h.* OR| |2-h PG≥200 mg/dL (≥11.1 mmol/L) during OGTT. The test should be performed as described by the WHO, using a glucose load containing the equivalent of 75 g anhydrous glucose dissolved in water.*| |OR| |In an individual with classic symptoms of hyperglycemia or hyperglycemic crisis, a random plasma glucose≥200 mg/dL (≥11.1 mmol/L). Random is any time of the day without regard to time since previous meal.|"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What fasting plasma glucose value diagnoses diabetes?",
+    "reference": "A fasting plasma glucose of 126 mg/dL (7.0 mmol/L) or higher, with fasting defined as no caloric intake for at least 8 hours.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > _Recommendations_\n\n|A1C≥6.5% (≥48 mmol/mol). The test should be performed in a laboratory using a method that is NGSP certifed and standardized to the DCCT assay.* OR| |---| |FPG≥126 mg/dL (≥7.0 mmol/L). Fasting is defned as no caloric intake for at least 8 h.* OR| |2-h PG≥200 mg/dL (≥11.1 mmol/L) during OGTT. The test should be performed as described by the WHO, using a glucose load containing the equivalent of 75 g anhydrous glucose dissolved in water.*| |OR| |In an individual with classic symptoms of hyperglycemia or hyperglycemic crisis, a random plasma glucose≥200 mg/dL (≥11.1 mmol/L). Random is any time of the day without regard to time since previous meal.|"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What 2-hour OGTT glucose value diagnoses diabetes?",
+    "reference": "A 2-hour plasma glucose of 200 mg/dL (11.1 mmol/L) or higher during a 75-g oral glucose tolerance test.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > _Recommendations_\n\n|A1C≥6.5% (≥48 mmol/mol). The test should be performed in a laboratory using a method that is NGSP certifed and standardized to the DCCT assay.* OR| |---| |FPG≥126 mg/dL (≥7.0 mmol/L). Fasting is defned as no caloric intake for at least 8 h.* OR| |2-h PG≥200 mg/dL (≥11.1 mmol/L) during OGTT. The test should be performed as described by the WHO, using a glucose load containing the equivalent of 75 g anhydrous glucose dissolved in water.*| |OR| |In an individual with classic symptoms of hyperglycemia or hyperglycemic crisis, a random plasma glucose≥200 mg/dL (≥11.1 mmol/L). Random is any time of the day without regard to time since previous meal.|"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What A1C range defines prediabetes?",
+    "reference": "Prediabetes is an A1C of 5.7-6.4% (39-47 mmol/mol); it can also be defined by impaired fasting glucose or impaired glucose tolerance.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > Screening and Diagnosis of Diabetes\n\nA1C 5.7–6.4% (39–47 mmol/mol) OR FPG 100 mg/dL (5.6 mmol/L) to 125 mg/dL (6.9 mmol/L) (IFG) OR 2-h PG during 75-g OGTT 140 mg/dL (7.8 mmol/L) to 199 mg/dL (11.0 mmol/L) (IGT)"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What are the impaired fasting glucose and impaired glucose tolerance ranges?",
+    "reference": "IFG is a fasting glucose of 100-125 mg/dL (5.6-6.9 mmol/L); IGT is a 2-hour glucose of 140-199 mg/dL (7.8-11.0 mmol/L) on a 75-g OGTT.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > Screening and Diagnosis of Diabetes\n\nA1C 5.7–6.4% (39–47 mmol/mol) OR FPG 100 mg/dL (5.6 mmol/L) to 125 mg/dL (6.9 mmol/L) (IFG) OR 2-h PG during 75-g OGTT 140 mg/dL (7.8 mmol/L) to 199 mg/dL (11.0 mmol/L) (IGT)"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "At what age should adults without risk factors begin screening for type 2 diabetes?",
+    "reference": "Screening should begin at age 35 for all adults; earlier at any age for those with overweight/obesity plus a risk factor.",
+    "reference_contexts": [
+      "PREDIABETES AND TYPE 2 DIABETES > _Recommendations_\n\n2.12b For all other people, screening should begin at age 35 years. B"
+    ],
+    "metadata": {
+      "pillar": "screening",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "If diabetes screening is normal, how often should it be repeated?",
+    "reference": "At a minimum of every 3 years, sooner with symptoms or weight gain; people with prediabetes are tested yearly and those with prior GDM every 1-3 years.",
+    "reference_contexts": [
+      "PREDIABETES AND TYPE 2 DIABETES > _Recommendations_\n\n5. If results are normal, testing should be repeated at a minimum of 3-year intervals, with consideration of more frequent testing depending on initial results and risk status."
+    ],
+    "metadata": {
+      "pillar": "screening",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which risk factors warrant diabetes screening in an overweight adult of any age?",
+    "reference": "A first-degree relative with diabetes, high-risk ancestry, cardiovascular disease, hypertension, low HDL/high triglycerides, PCOS, physical inactivity, or other insulin-resistance conditions (with BMI >=25, or >=23 in Asian ancestry).",
+    "reference_contexts": [
+      "PREDIABETES AND TYPE 2 DIABETES > _Recommendations_\n\nFirst-degree relative with diabetes"
+    ],
+    "metadata": {
+      "pillar": "screening",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Does a single abnormal test confirm a diabetes diagnosis?",
+    "reference": "No. Without unequivocal hyperglycemia, diagnosis requires confirmatory testing - two abnormal results, either the same test repeated or two different tests.",
+    "reference_contexts": [
+      "DIAGNOSTIC TESTS FOR DIABETES > _Recommendations_\n\n2.1b In the absence of unequivocal hyperglycemia (e.g., hyperglycemic crises), diagnosis requires confirmatory testing ( Table 2.1 ). B"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What are the main clinical categories of diabetes?",
+    "reference": "Type 1 (autoimmune beta-cell destruction), type 2 (nonautoimmune progressive beta-cell loss with insulin resistance), specific types (e.g., monogenic, pancreatic, drug-induced), and gestational diabetes.",
+    "reference_contexts": [
+      "CLASSIFICATION > _Recommendation_\n\n2. Type 2 diabetes (due to a nonautoimmune progressive loss of adequate β-cell insulin secretion, frequently on the background of insulin resistance)"
+    ],
+    "metadata": {
+      "pillar": "classify",
+      "section": "doc2.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What weight-loss and activity targets does a diabetes prevention program aim for?",
+    "reference": "At least 5-7% weight loss through a reduced-calorie healthy eating pattern plus at least 150 minutes per week of moderate-intensity physical activity.",
+    "reference_contexts": [
+      "_Recommendations_\n\nprogram to achieve and maintain a weight reduction of at least 5–7% of initial body weight through a healthy reduced-calorie eating pattern and ≥150 min/week of moderate-intensity physical activity. A 3.4 Prescribe an evidence-based eating pattern (e.g., Mediterranean, low carbohydrate) to individuals with prediabetes to prevent type 2 diabetes. B 3.5 Offer diabetes prevention programs to adults at high risk for type 2 diabetes. A Diabetes prevention programs should be covered by thirdparty payors, and inconsistencies in access should be addressed. E"
+    ],
+    "metadata": {
+      "pillar": "prevent",
+      "section": "doc3.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What eating pattern is recommended to prevent type 2 diabetes in people with prediabetes?",
+    "reference": "An evidence-based eating pattern such as Mediterranean or low-carbohydrate.",
+    "reference_contexts": [
+      "_Recommendations_\n\nprogram to achieve and maintain a weight reduction of at least 5–7% of initial body weight through a healthy reduced-calorie eating pattern and ≥150 min/week of moderate-intensity physical activity. A 3.4 Prescribe an evidence-based eating pattern (e.g., Mediterranean, low carbohydrate) to individuals with prediabetes to prevent type 2 diabetes. B 3.5 Offer diabetes prevention programs to adults at high risk for type 2 diabetes. A Diabetes prevention programs should be covered by thirdparty payors, and inconsistencies in access should be addressed. E"
+    ],
+    "metadata": {
+      "pillar": "diet",
+      "section": "doc3.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Who should be considered for metformin to prevent type 2 diabetes?",
+    "reference": "High-risk adults, especially those aged 25-59 with BMI >=35, higher fasting glucose (>=110 mg/dL) and A1C (>=6.0%), and individuals with prior gestational diabetes.",
+    "reference_contexts": [
+      "_Recommendations_\n\n3.7 Metformin for the prevention of type 2 diabetes should be considered in adults at high risk of type 2 diabetes, as typified by the Diabetes Prevention Program, especially those aged 25–59 years with BMI ≥35 kg/m2 , higher fasting plasma glucose (e.g., ≥110 mg/dL [≥6 mmol/L]), and higher A1C (e.g., ≥6.0% [≥42 mmol/mol]), and in individuals with prior gestational diabetes mellitus. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc3.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What medication can delay the onset of stage 3 type 1 diabetes?",
+    "reference": "Teplizumab-mzwv, discussed for selected individuals aged 8 years and older with stage 2 type 1 diabetes.",
+    "reference_contexts": [
+      "Pharmacologic Interventions to Delay Symptomatic Type 1 Diabetes > _Recommendation_\n\n3.17 Teplizumab-mzwv infusion to delay the onset of symptomatic type 1 diabetes (stage 3) should be discussed with selected individuals aged ≥8 years with stage 2 type 1 diabetes. Treatment should be in a setting with appropriately trained personnel. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc3.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which glucose-lowering drugs should be avoided in patients at high fracture risk?",
+    "reference": "Avoid thiazolidinediones and sulfonylureas (associated with higher fracture risk), particularly in those at elevated fracture risk.",
+    "reference_contexts": [
+      "Decision cycle for person-centered glycemic management in type 2 diabetes > ASSESSMENT OF COMORBIDITIES > Autoimmune Diseases > _Recommendations_\n\n4.10 Consider the potential adverse impact on skeletal health when selecting pharmacological options to lower glucose levels in people with diabetes. Avoiding medications with a known association with higher fracture risk (e.g., thiazolidinediones and sulfonylureas) is recommended, particularly for those at elevated risk for fractures. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc4.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What test is used to screen for liver fibrosis risk in type 2 diabetes?",
+    "reference": "The fibrosis-4 index (FIB-4), calculated from age, ALT, AST, and platelets, even when liver enzymes are normal; FIB-4 >=1.3 prompts further risk stratification.",
+    "reference_contexts": [
+      "Decision cycle for person-centered glycemic management in type 2 diabetes > ASSESSMENT OF COMORBIDITIES > Metabolic Dysfunction–Associated Steatotic Liver Disease and Metabolic Dysfunction–Associated Steatohepatitis > _Recommendations_\n\nassociated steatohepatitis (MASH) using a calculated fibrosis-4 index (FIB-4) (derived from age, ALT, AST, and platelets [mdcalc.com/calc/2200/ fibrosis4-fib-4-index-liver-fibrosis]), even if they have normal liver enzymes. B 4.22b Adults with diabetes or prediabetes with persistently elevated plasma aminotransferase levels for >6 months and low FIB-4 should be evaluated for other causes of liver disease. B"
+    ],
+    "metadata": {
+      "pillar": "comorbidity",
+      "section": "doc4.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What is the first-line treatment for erectile dysfunction in men with diabetes?",
+    "reference": "Phosphodiesterase type 5 inhibitors (PDE5Is) are first-line; testosterone should be measured and replaced if hypogonadism is present.",
+    "reference_contexts": [
+      "Decision cycle for person-centered glycemic management in type 2 diabetes > ASSESSMENT OF COMORBIDITIES > Sexual Health in Men > _Recommendations_\n\nthose of higher dosages, and various PDE5Is show comparable efficacy (151). PDE5Is are associated with an increased risk of headaches, flushing, and dyspepsia (151). First-line therapy for ED in men with diabetes is PDE5Is, but men with diabetes may be less responsive than men without diabetes (149). Strategies to improve response to PDE5Is include daily therapy and optimization of comorbidities. In men with diabetes not responding to PDEIs, other potentially effective treatments may include intracavernosal injections, intraurethral prostaglandin, vacuum erection devices, and penile prosthetic surgery (149)."
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc4.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How should diabetes treatment be adjusted in a patient with cognitive impairment?",
+    "reference": "Simplify the treatment plan as much as possible and tailor it to minimize the risk of hypoglycemia.",
+    "reference_contexts": [
+      "Decision cycle for person-centered glycemic management in type 2 diabetes > ASSESSMENT OF COMORBIDITIES > Cognitive Impairment/Dementia > _Recommendation_\n\n4.14 In the presence of cognitive impairment, diabetes treatment plans should be simplified as much as possible and tailored to minimize the risk of hypoglycemia. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc4.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What is the recommended daily sodium limit for people with diabetes?",
+    "reference": "Less than 2,300 mg per day, best achieved by limiting processed foods.",
+    "reference_contexts": [
+      "MEDICAL NUTRITION THERAPY\n\n|Table 5.1—Nutrition recommendations Recommendations| |---| |5.10 Provide individualized medical nutrition therapy by referring people with prediabetes or diabetes to a registered dietitian nutritionist, preferably one who has comprehensive experience in diabetes care. A| |5.11 Diabetes medical nutrition therapy can result in cost savings B and improved cardiometabolic outcomes A and should be reimbursed by insurance. E| |5.12 Provide an overweight or obesity treatment plan based on their nutrition, physical activity, and behavioral health status for all people with overweight or obesity, aiming for at least 5–7% weight loss. A| |5.13 For diabetes prevention and management of people with prediabetes or diabetes, recommend individualized meal plans that keep nutrient quality, total calories, and metabolic goals in mind. B| |5.14 Eating patterns should emphasize key nutrition principles (inclusion of nonstarchy vegetables, whole fruits, legumes, lean proteins, whole grains, nuts and seeds, and low-fat dairy or nondairy alternatives) and minimize consumption of red meat, sugar-sweetened beverages, sweets, refned grains, processed and ultraprocessed foods in people with prediabetes and diabetes. B| |5.15 Consider reducing carbohydrate intake for some adults with diabetes to improve glycemia. An effective way to achieve this is by limiting consumption of processed foods. B| |5.16 Assess intake of supplements, as supplementation with micronutrients (e.g., vitamins and minerals, such as magnesium or chromium) or herbs or spices (e.g., cinnamon and aloe vera) is not recommended for glycemic benefts. C| |5.17 Counsel against β-carotene supplementation, as there is evidence of harm for certain individuals and it confers no beneft. B| |5.18 Advise adults with diabetes and those at risk for diabetes who consume alcohol to not exceed the recommended daily limits. B Advise abstainers to not start drinking alcohol, even in moderation. B| |5.19 Counsel people with diabetes about the signs, symptoms, and self-management of delayed hypoglycemia and the importance of monitoring glucose after drinking alcohol to reduce hypoglycemia risk, especially when using insulin or insulin secretagogues. B| |5.20 Counsel people with diabetes to limit sodium consumption to <2,300 mg/day, as clinically appropriate, and the best way to achieve this is through limiting consumption of processed foods. B| |5.21 Encourage people with diabetes and those at risk for diabetes to consume water over other beverages. A| |5.22 Counsel people with diabetes and those at risk for diabetes that nonnutritive sweeteners can be used in place of sugar-sweetened products if consumed in moderation and for the short term to reduce overall calorie and carbohydrate intake. B| |5.23 Counsel and regularly monitor individuals pursuing intentional weight loss to ensure adequate nutritional intake, with particular attention to preventing protein insuffciency and micronutrient defciencies. E| |5.24 Emphasize minimally processed, nutrient-dense, high-fber sources of carbohydrate (at least 14 g fber per 1,000 kcal). B| |5.25 Advise people with diabetes and those at risk for diabetes to replace sugar-sweetened beverages (including any juices) with water or low-calorie or no-calorie beverages and minimize foods with added sugar to manage glycemia and reduce risk for cardiometabolic disease. B| |5.26 Educate individuals with diabetes who are at risk for developing diabetic ketoacidosis and who are treated with sodium–glucose cotransporter inhibition on the risks and signs of ketoacidosis and methods of risk mitigation management, provide them with appropriate tools for ketone measurement (i.e., serum β-hydroxybutyrate), and discourage a ketogenic eating pattern. E| |5.27 Provide education on the glycemic impact of carbohydrate, A fat, and protein B tailored to an individual’s needs, insulin plan, and preferences for care to optimize mealtime insulin dosing.| |5.28 Counsel people using fxed insulin doses about consistent patterns of carbohydrate intake with respect to time and amount while considering the insulin action time, as it can result in improved glycemia and reduce the risk for hypoglycemia. B| |5.29 Counsel people with diabetes and those at risk for diabetes to incorporate more plant-based protein sources (e.g., nuts, seeds, and legumes) as part of an overall diverse eating pattern to reduce cardiovascular disease risk. B| |5.30 Counsel people with diabetes and those at risk for diabetes to consider an eating plan emphasizing elements of a Mediterranean eating pattern, which is rich in fatty fsh, nuts, and seeds, to reduce cardiovascular disease risk A and improve glucose metabolism. B| |5.31 Counsel people with diabetes and those at risk for diabetes to limit intake of foods high in saturated fat to help reduce cardiovascular disease risk. B|"
+    ],
+    "metadata": {
+      "pillar": "diet",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How much dietary fiber is recommended?",
+    "reference": "At least 14 g of fiber per 1,000 kcal, emphasizing minimally processed, nutrient-dense, high-fiber carbohydrate sources.",
+    "reference_contexts": [
+      "MEDICAL NUTRITION THERAPY\n\n|Table 5.1—Nutrition recommendations Recommendations| |---| |5.10 Provide individualized medical nutrition therapy by referring people with prediabetes or diabetes to a registered dietitian nutritionist, preferably one who has comprehensive experience in diabetes care. A| |5.11 Diabetes medical nutrition therapy can result in cost savings B and improved cardiometabolic outcomes A and should be reimbursed by insurance. E| |5.12 Provide an overweight or obesity treatment plan based on their nutrition, physical activity, and behavioral health status for all people with overweight or obesity, aiming for at least 5–7% weight loss. A| |5.13 For diabetes prevention and management of people with prediabetes or diabetes, recommend individualized meal plans that keep nutrient quality, total calories, and metabolic goals in mind. B| |5.14 Eating patterns should emphasize key nutrition principles (inclusion of nonstarchy vegetables, whole fruits, legumes, lean proteins, whole grains, nuts and seeds, and low-fat dairy or nondairy alternatives) and minimize consumption of red meat, sugar-sweetened beverages, sweets, refned grains, processed and ultraprocessed foods in people with prediabetes and diabetes. B| |5.15 Consider reducing carbohydrate intake for some adults with diabetes to improve glycemia. An effective way to achieve this is by limiting consumption of processed foods. B| |5.16 Assess intake of supplements, as supplementation with micronutrients (e.g., vitamins and minerals, such as magnesium or chromium) or herbs or spices (e.g., cinnamon and aloe vera) is not recommended for glycemic benefts. C| |5.17 Counsel against β-carotene supplementation, as there is evidence of harm for certain individuals and it confers no beneft. B| |5.18 Advise adults with diabetes and those at risk for diabetes who consume alcohol to not exceed the recommended daily limits. B Advise abstainers to not start drinking alcohol, even in moderation. B| |5.19 Counsel people with diabetes about the signs, symptoms, and self-management of delayed hypoglycemia and the importance of monitoring glucose after drinking alcohol to reduce hypoglycemia risk, especially when using insulin or insulin secretagogues. B| |5.20 Counsel people with diabetes to limit sodium consumption to <2,300 mg/day, as clinically appropriate, and the best way to achieve this is through limiting consumption of processed foods. B| |5.21 Encourage people with diabetes and those at risk for diabetes to consume water over other beverages. A| |5.22 Counsel people with diabetes and those at risk for diabetes that nonnutritive sweeteners can be used in place of sugar-sweetened products if consumed in moderation and for the short term to reduce overall calorie and carbohydrate intake. B| |5.23 Counsel and regularly monitor individuals pursuing intentional weight loss to ensure adequate nutritional intake, with particular attention to preventing protein insuffciency and micronutrient defciencies. E| |5.24 Emphasize minimally processed, nutrient-dense, high-fber sources of carbohydrate (at least 14 g fber per 1,000 kcal). B| |5.25 Advise people with diabetes and those at risk for diabetes to replace sugar-sweetened beverages (including any juices) with water or low-calorie or no-calorie beverages and minimize foods with added sugar to manage glycemia and reduce risk for cardiometabolic disease. B| |5.26 Educate individuals with diabetes who are at risk for developing diabetic ketoacidosis and who are treated with sodium–glucose cotransporter inhibition on the risks and signs of ketoacidosis and methods of risk mitigation management, provide them with appropriate tools for ketone measurement (i.e., serum β-hydroxybutyrate), and discourage a ketogenic eating pattern. E| |5.27 Provide education on the glycemic impact of carbohydrate, A fat, and protein B tailored to an individual’s needs, insulin plan, and preferences for care to optimize mealtime insulin dosing.| |5.28 Counsel people using fxed insulin doses about consistent patterns of carbohydrate intake with respect to time and amount while considering the insulin action time, as it can result in improved glycemia and reduce the risk for hypoglycemia. B| |5.29 Counsel people with diabetes and those at risk for diabetes to incorporate more plant-based protein sources (e.g., nuts, seeds, and legumes) as part of an overall diverse eating pattern to reduce cardiovascular disease risk. B| |5.30 Counsel people with diabetes and those at risk for diabetes to consider an eating plan emphasizing elements of a Mediterranean eating pattern, which is rich in fatty fsh, nuts, and seeds, to reduce cardiovascular disease risk A and improve glucose metabolism. B| |5.31 Counsel people with diabetes and those at risk for diabetes to limit intake of foods high in saturated fat to help reduce cardiovascular disease risk. B|"
+    ],
+    "metadata": {
+      "pillar": "diet",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How much aerobic physical activity is recommended for adults with diabetes?",
+    "reference": "150 minutes or more per week of moderate-to-vigorous aerobic activity spread over at least 3 days, with no more than 2 consecutive days without activity; shorter durations (>=75 min/week) of vigorous activity may suffice for fitter individuals.",
+    "reference_contexts": [
+      "Religious and intermittent fasting: differences and similarities > INTERMITTENT FASTING > PHYSICAL ACTIVITY > Recommendations\n\n5.36 Counsel most adults with type 1 diabetes C and type 2 diabetes B to engage in 150 min or more of moderate- to vigorous-intensity aerobic activity per week, spread over at least"
+    ],
+    "metadata": {
+      "pillar": "lifestyle",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How often should adults with diabetes do resistance exercise?",
+    "reference": "2-3 sessions per week on nonconsecutive days.",
+    "reference_contexts": [
+      "Religious and intermittent fasting: differences and similarities > INTERMITTENT FASTING > PHYSICAL ACTIVITY > Recommendations\n\n5.37 Counsel adults with type 1 diabetes C and type 2 diabetes B to engage in 2–3 sessions/week of resistance exercise on nonconsecutive days."
+    ],
+    "metadata": {
+      "pillar": "lifestyle",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Is a ketogenic diet safe for a patient taking an SGLT2 inhibitor?",
+    "reference": "It should be discouraged. SGLT2 inhibition with a ketogenic or very-low-carbohydrate pattern raises ketoacidosis risk; educate on DKA signs, provide ketone (beta-hydroxybutyrate) testing, and discourage a ketogenic eating pattern.",
+    "reference_contexts": [
+      "MEDICAL NUTRITION THERAPY\n\n|Table 5.1—Nutrition recommendations Recommendations| |---| |5.10 Provide individualized medical nutrition therapy by referring people with prediabetes or diabetes to a registered dietitian nutritionist, preferably one who has comprehensive experience in diabetes care. A| |5.11 Diabetes medical nutrition therapy can result in cost savings B and improved cardiometabolic outcomes A and should be reimbursed by insurance. E| |5.12 Provide an overweight or obesity treatment plan based on their nutrition, physical activity, and behavioral health status for all people with overweight or obesity, aiming for at least 5–7% weight loss. A| |5.13 For diabetes prevention and management of people with prediabetes or diabetes, recommend individualized meal plans that keep nutrient quality, total calories, and metabolic goals in mind. B| |5.14 Eating patterns should emphasize key nutrition principles (inclusion of nonstarchy vegetables, whole fruits, legumes, lean proteins, whole grains, nuts and seeds, and low-fat dairy or nondairy alternatives) and minimize consumption of red meat, sugar-sweetened beverages, sweets, refned grains, processed and ultraprocessed foods in people with prediabetes and diabetes. B| |5.15 Consider reducing carbohydrate intake for some adults with diabetes to improve glycemia. An effective way to achieve this is by limiting consumption of processed foods. B| |5.16 Assess intake of supplements, as supplementation with micronutrients (e.g., vitamins and minerals, such as magnesium or chromium) or herbs or spices (e.g., cinnamon and aloe vera) is not recommended for glycemic benefts. C| |5.17 Counsel against β-carotene supplementation, as there is evidence of harm for certain individuals and it confers no beneft. B| |5.18 Advise adults with diabetes and those at risk for diabetes who consume alcohol to not exceed the recommended daily limits. B Advise abstainers to not start drinking alcohol, even in moderation. B| |5.19 Counsel people with diabetes about the signs, symptoms, and self-management of delayed hypoglycemia and the importance of monitoring glucose after drinking alcohol to reduce hypoglycemia risk, especially when using insulin or insulin secretagogues. B| |5.20 Counsel people with diabetes to limit sodium consumption to <2,300 mg/day, as clinically appropriate, and the best way to achieve this is through limiting consumption of processed foods. B| |5.21 Encourage people with diabetes and those at risk for diabetes to consume water over other beverages. A| |5.22 Counsel people with diabetes and those at risk for diabetes that nonnutritive sweeteners can be used in place of sugar-sweetened products if consumed in moderation and for the short term to reduce overall calorie and carbohydrate intake. B| |5.23 Counsel and regularly monitor individuals pursuing intentional weight loss to ensure adequate nutritional intake, with particular attention to preventing protein insuffciency and micronutrient defciencies. E| |5.24 Emphasize minimally processed, nutrient-dense, high-fber sources of carbohydrate (at least 14 g fber per 1,000 kcal). B| |5.25 Advise people with diabetes and those at risk for diabetes to replace sugar-sweetened beverages (including any juices) with water or low-calorie or no-calorie beverages and minimize foods with added sugar to manage glycemia and reduce risk for cardiometabolic disease. B| |5.26 Educate individuals with diabetes who are at risk for developing diabetic ketoacidosis and who are treated with sodium–glucose cotransporter inhibition on the risks and signs of ketoacidosis and methods of risk mitigation management, provide them with appropriate tools for ketone measurement (i.e., serum β-hydroxybutyrate), and discourage a ketogenic eating pattern. E| |5.27 Provide education on the glycemic impact of carbohydrate, A fat, and protein B tailored to an individual’s needs, insulin plan, and preferences for care to optimize mealtime insulin dosing.| |5.28 Counsel people using fxed insulin doses about consistent patterns of carbohydrate intake with respect to time and amount while considering the insulin action time, as it can result in improved glycemia and reduce the risk for hypoglycemia. B| |5.29 Counsel people with diabetes and those at risk for diabetes to incorporate more plant-based protein sources (e.g., nuts, seeds, and legumes) as part of an overall diverse eating pattern to reduce cardiovascular disease risk. B| |5.30 Counsel people with diabetes and those at risk for diabetes to consider an eating plan emphasizing elements of a Mediterranean eating pattern, which is rich in fatty fsh, nuts, and seeds, to reduce cardiovascular disease risk A and improve glucose metabolism. B| |5.31 Counsel people with diabetes and those at risk for diabetes to limit intake of foods high in saturated fat to help reduce cardiovascular disease risk. B|"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc5.md",
+      "difficulty": "multi-hop"
+    }
+  },
+  {
+    "user_input": "What is the most effective pharmacotherapy for smoking cessation in people with diabetes?",
+    "reference": "Varenicline, combined with cessation counseling, was the most efficacious pharmacotherapy.",
+    "reference_contexts": [
+      "SMOKING CESSATION: TOBACCO, E-CIGARETTES, AND CANNABIS > Recommendations\n\nRoutine (every visit with every person), thorough assessment of all types of tobacco use is essential to prevent tobacco product initiation and promote cessation. Evidence demonstrates quitting smoking reduces or reverses adverse health effects in addition to increasing life expectancy by up to 10 years (338). However, tobacco use among adults with chronic conditions remains higher than the general population, despite recent declines in smoking among middle-aged and older adults with diabetes (339). Numerous RCTs demonstrate the efficacy and cost-effectiveness of both intensive and brief counseling on smoking cessation, including the use of telephone quit lines and web-based interventions, in reducing tobacco use and maintaining abstinence from smoking (338,340). The World Health Organization recommends both counseling and pharmacologic therapy to assist with smoking cessation in nonpregnant adults (341). A secondary data analysis of the Evaluating Adverse Events in a Global Smoking Cessation Study (EAGLES), a randomized, doubleblind, triple-dummy, placebo-controlled and active-controlled trial, found varenicline to be the most efficacious pharmacotherapy for people with diabetes compared"
+    ],
+    "metadata": {
+      "pillar": "lifestyle",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How should prandial insulin be adjusted for a meal followed by religious fasting?",
+    "reference": "Reduce the insulin dose for the meal followed by fasting (about 35-50%); for other meals match carbohydrate intake. Prefer agents with low hypoglycemia risk during fasting.",
+    "reference_contexts": [
+      "Religious and intermittent fasting: differences and similarities > INTERMITTENT FASTING > PHYSICAL ACTIVITY > Recommendations\n\n|Table 5.4—Changes in medic Medication name|ations during fasting Risk of hypoglycemia|Timing|Total daily dose| |---|---|---|---| |Metformin, SGLT2 inhibitor, DPP-4 inhibitor, GLP-1 receptor agonist, acarbose, or pioglitazone|Low|• If once daily, then take at main mealtime. • If twice daily, then split dose be- tween the two meals. • If once weekly, no change of time.|• No change| |New generation of sulfonylurea (glimepiride and gliclazide)|Low to moderate|• If once daily, then take at main mealtime. • If twice daily, then split dose be- tween the two meals.|• Reduce dose if glucose levels are within individualized goal range and if no hypoglycemia or hyperglycemia is present at baseline.| |Older generation of sulfonylurea (glyburide)|Moderate to high|• Take at time of main meal|• Replace with newer-generation sulfo- nylurea or reduce dose by 50%.| |Basal insulin|Moderate to high|• For longer-acting basal analogs (glargine 300 or degludec), no need to change timing. • For other basal insulins, take at beginning of breaking fast meal.|• Choose the insulin with lower risk of hypoglycemia among the class. • Reduce dose by 25–35% if not well managed.| |Prandial insulin|High|• At mealtime|• Reduce dose of insulin for the meal followed by fasting (35–50%). • For other meals, insulin dose should match carbohydrate intake.| |Mixed insulin and insulin coformulations|High|• If once daily, then take at main mealtime. • If twice daily, then split dose be- tween the two meals|• Reduce dose of insulin for the meal followed by fasting (35–50%). • For other meals, no change of dose.|"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc5.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What is the general A1C target for many nonpregnant adults?",
+    "reference": "An A1C below 7% (53 mmol/mol) for many nonpregnant adults, individualized (e.g., <6.5% if low risk, up to <8% for complex or frail patients).",
+    "reference_contexts": [
+      "GLYCEMIC GOALS > _Recommendations_\n\n6.3a An A1C goal of <7% (<53 mmol/ mol) is appropriate for many nonpregnant adults without severe hypoglycemia or hypoglycemia affecting health or quality of life. A"
+    ],
+    "metadata": {
+      "pillar": "safety",
+      "section": "doc6.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What continuous glucose monitoring time-in-range goal is recommended?",
+    "reference": "A time-in-range goal of greater than 70% for many nonpregnant adults, with time below 70 mg/dL under 4% and time below 54 mg/dL under 1%.",
+    "reference_contexts": [
+      "GLYCEMIC GOALS > _Recommendations_\n\n6.3b A goal time in range of >70% in people using CGM is appropriate for many nonpregnant adults. B"
+    ],
+    "metadata": {
+      "pillar": "safety",
+      "section": "doc6.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "How should hypoglycemia be treated?",
+    "reference": "Give about 15 g of fast-acting glucose (5-10 g if on an automated insulin delivery system), recheck in 15 minutes, and repeat if still low; use glucagon if the person cannot take oral carbohydrate.",
+    "reference_contexts": [
+      "HYPOGLYCEMIA ASSESSMENT, PREVENTION, AND TREATMENT > Hypoglycemia Treatment\n\nFor most individuals, 15 g carbohydrates should be ingested. Individuals using automated insulin delivery systems should typically ingest 5–10 g carbohydrates unless there is hypoglycemia in conjunction with exercise or there has been significant"
+    ],
+    "metadata": {
+      "pillar": "safety",
+      "section": "doc6.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which diabetes medications carry the highest risk of hypoglycemia?",
+    "reference": "Insulin, sulfonylureas, and meglitinides; clinically significant hypoglycemia is rare with other classes.",
+    "reference_contexts": [
+      "HYPOGLYCEMIA ASSESSMENT, PREVENTION, AND TREATMENT > Hypoglycemia Risk Assessment\n\nAssessment of an individual’s risk for hypoglycemia includes evaluating clinical risk factors as well as relevant social, cultural, and economic factors ( Table 6.5 ). Recommendations 6.10–6.20 group individuals with diabetes into two hypoglycemia risk categories with clinical significance. Individuals at risk for hypoglycemia are those treated with insulin, sulfonylureas, or meglitinides; clinically significant hypoglycemia is rare among individuals taking other diabetes medication classes (94,95). Individuals at high risk for hypoglycemia are the subset of individuals at risk for hypoglycemia who either have a major hypoglycemia risk factor or have multiple other risk factors (determined by the health care professional incorporating clinical judgment) ( Table 6.5 ). This risk stratification is based on epidemiologic studies of hypoglycemia risk (88,89,94,96–100). Validated tools have been developed to estimate hypoglycemia risk using predominantly electronic health record data (101–103). However, these tools do not include all of the important hypoglycemia risk factors, and more research is needed to determine how they can best be incorporated into clinical care."
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc6.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which medications should be held during an acute illness when the patient cannot maintain oral intake?",
+    "reference": "Hold metformin and SGLT2 inhibitors when oral intake cannot be maintained or if there is concern for acute kidney injury; GLP-1 RAs may need to be held for GI illness and TZDs in heart failure.",
+    "reference_contexts": [
+      "HYPOGLYCEMIA ASSESSMENT, PREVENTION, AND TREATMENT > Hypoglycemia Prevention\n\nmedical care. Any individuals with diabetes experiencing illness or other stressful events should be assessed for the need for more frequent monitoring of glucose; ketosisprone individuals also require urine or blood ketone monitoring. Clinicians should reevaluate diabetes treatment during these events and make adjustments as appropriate. Specifically, clinicians should consider holding metformin and SGLT2 inhibitors when oral intake cannot be maintained or if there is concern for acute kidney injury (158). GLP-1 RAs may need to be held for illnesses with significant gastrointestinal"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc6.md",
+      "difficulty": "multi-hop"
+    }
+  },
+  {
+    "user_input": "What is the preferred anti-obesity pharmacotherapy in people with diabetes and overweight or obesity?",
+    "reference": "A GLP-1 receptor agonist or a dual GIP/GLP-1 receptor agonist (e.g., semaglutide, tirzepatide) is the preferred pharmacotherapy.",
+    "reference_contexts": [
+      "_Recommendations_\n\n8.18 In people with diabetes and overweight or obesity, the preferred pharmacotherapy should be a glucagonlike peptide 1 receptor agonist or dual glucose-dependent insulinotropic polypeptide and glucagon-like peptide 1 receptor agonist with greater weight loss efficacy (i.e., semaglutide or tirzepatide), especially considering their added weight-independent benefits. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc8.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "When should metabolic (bariatric) surgery be considered in type 2 diabetes?",
+    "reference": "Consider metabolic surgery as an option to treat type 2 diabetes in appropriate surgical candidates with obesity.",
+    "reference_contexts": [
+      "_Recommendations_\n\n8.22 Consider metabolic surgery as a weight and glycemic management approach in people with type 2 diabetes with BMI ≥30.0 kg/m2 (or ≥27.5 kg/m2 in Asian American individuals) who are otherwise good surgical candidates. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc8.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What insulin delivery method is recommended for most adults with type 1 diabetes?",
+    "reference": "Continuous subcutaneous insulin infusion / automated insulin delivery is recommended for most adults with type 1 diabetes.",
+    "reference_contexts": [
+      "PHARMACOLOGIC THERAPY FOR ADULTS WITH TYPE 1 DIABETES > _Recommendations_\n\n9.1 Treat most adults with type 1 diabetes with continuous subcutaneous insulin infusion or multiple daily doses of prandial (injected or inhaled) and basal insulin. A 9.2 For most adults with type 1 diabetes, insulin analogs (or inhaled insulin) are preferred over injectable human insulins to minimize hypoglycemia risk. A 9.3 To improve glycemic outcomes and quality of life and to minimize hypoglycemia risk, most adults with type 1 diabetes should receive education on how to match mealtime insulin doses to carbohydrate intake and fat and protein intake depending on the person’s or caregiver’s needs or preferences. They should also be taught how to modify the insulin dose (correction dose) based on concurrent glycemia, glycemic trends (if available), sick-day management, and anticipated physical activity. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc9.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which glucose-lowering drug is recommended for a patient with type 2 diabetes and heart failure?",
+    "reference": "An SGLT2 inhibitor is recommended for both glycemic management and prevention of heart-failure hospitalizations, regardless of ejection fraction and independent of A1C.",
+    "reference_contexts": [
+      "Simplified overview of indications for β-cell replacement therapy in people with type 1 diabetes\n\n9.8 In adults with type 2 diabetes who have heart failure (HF) (with either reduced or preserved ejection fraction), an SGLT2 inhibitor is recommended for both glycemic management and prevention of HF hospitalizations (irrespective of A1C) ( Fig. 9.4 ). A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc9.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Which glucose-lowering drug is preferred for type 2 diabetes with advanced chronic kidney disease?",
+    "reference": "A GLP-1 receptor agonist is preferred in advanced CKD (eGFR <30) because of lower hypoglycemia risk and cardiovascular event reduction.",
+    "reference_contexts": [
+      "Simplified overview of indications for β-cell replacement therapy in people with type 1 diabetes\n\n9.11 In adults with type 2 diabetes and advanced CKD (eGFR 2 ), a GLP-1 RA is preferred for glycemic management due to lower risk of hypoglycemia and for cardiovascular event reduction. B Individuals on dialysis can be safely initiated or continued on GLP-1–based therapy (that is not dependent on kidney clearance) to reduce cardiovascular risk and mortality. C"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc9.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What is the first-line blood pressure medication for a person with diabetes, hypertension, and albuminuria?",
+    "reference": "An ACE inhibitor or an ARB is recommended as first-line for those with moderately or severely increased albuminuria.",
+    "reference_contexts": [
+      "Recommendations for the treatment of confirmed hypertension in nonpregnant people with diabetes > PHARMACOLOGIC INTERVENTIONS > _Recommendations_\n\n10.10 In nonpregnant people with diabetes and hypertension, either an ACE inhibitor or ARB is recommended for those with moderately increased albuminuria (UACR 30–299 mg/g creatinine) B and is strongly recommended for those with severely increased albuminuria (UACR ≥300 mg/g creatinine) and/or estimated glomerular filtration rate (eGFR) 2 to maximally tolerated dose to prevent the progression of kidney disease and reduce cardiovascular events. A If one class is not tolerated, the other should be substituted. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc10.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What statin intensity is recommended for a person with diabetes and established cardiovascular disease (e.g., prior heart attack or stroke)?",
+    "reference": "High-intensity statin therapy, added to lifestyle therapy, for people of all ages with diabetes and ASCVD.",
+    "reference_contexts": [
+      "Recommendations for the treatment of confirmed hypertension in nonpregnant people with diabetes > STATIN TREATMENT > Secondary Prevention > _Recommendations_\n\n10.26 For people of all ages with diabetes and ASCVD, high-intensity statin therapy should be added to lifestyle therapy. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc10.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "Should a patient with diabetes and a prior cardiovascular event take aspirin?",
+    "reference": "Yes - aspirin 75-162 mg/day is recommended as secondary prevention for those with diabetes and a history of ASCVD.",
+    "reference_contexts": [
+      "Recommendations for the treatment of confirmed hypertension in nonpregnant people with diabetes > ANTIPLATELET AGENTS > _Recommendations_\n\n10.33 Use aspirin therapy (75–162 mg/day) as a secondary prevention strategy in those with diabetes and a history of ASCVD. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc10.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What additional drug reduces CKD progression and cardiovascular events in diabetes with albuminuria?",
+    "reference": "A nonsteroidal mineralocorticoid receptor antagonist (finerenone) shown effective in trials, recommended when eGFR is >=25 mL/min/1.73 m2.",
+    "reference_contexts": [
+      "Kidney and Cardiovascular Outcomes of Mineralocorticoid Receptor Antagonists in Chronic Kidney Disease > _Recommendation_\n\n11.8 To reduce CKD progression and cardiovascular events in people with CKD and albuminuria, a nonsteroidal MRA that has been shown to be effective in clinical trials is recommended (if eGFR is ≥25 mL/min/1.73 m2 ). Potassium levels should be monitored 1 month after initiation. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc11.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What medications are recommended first-line for painful diabetic neuropathy?",
+    "reference": "Gabapentinoids (gabapentin, pregabalin), SNRIs (e.g., duloxetine), tricyclic antidepressants, and sodium channel blockers.",
+    "reference_contexts": [
+      "NEUROPATHY > Treatment > _Recommendations_\n\n12.22 Gabapentinoids, serotoninnorepinephrine reuptake inhibitors, tricyclic antidepressants, and sodium channel blockers are recommended as initial pharmacologic treatments for neuropathic pain in diabetes. A Combinations of these medications can provide additional relief of neuropathic pain. A Opioids, including tramadol and tapentadol, should not be used for neuropathic pain treatment in diabetes given the potential for adverse events except in rare circumstances. B"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc12.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What is the A1C goal for a healthy older adult with diabetes?",
+    "reference": "A lower glycemic goal such as A1C <7.0-7.5% for older adults with few, stable comorbidities and intact cognitive and functional status.",
+    "reference_contexts": [
+      "TREATMENT GOALS > _Recommendations_\n\n13.7a Older adults with diabetes with few and stable coexisting chronic illnesses, and intact cognitive and functional status, should have lower glycemic goals (such as A1C <7.0–7.5% [<53–58 mmol/mol]) and/or time in range [TIR] 70–180 mg/dL [3.9– 10.0 mmol/L] of ≥70% and time below range ≤70 mg/dL [≤3.9 mmol/L] of ≤4%) if CGM is used. C"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc13.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "What glycemic approach is recommended for an older adult with very complex or poor health?",
+    "reference": "Avoid stringent A1C targets; focus on avoiding hypoglycemia and symptomatic hyperglycemia.",
+    "reference_contexts": [
+      "TREATMENT GOALS > _Recommendations_\n\n13.7c Older adults with very complex or poor health receive minimal benefit from stringent glycemic goals. Clinicians should focus on avoiding hypoglycemia and symptomatic hyperglycemia. C 13.8 Screening for diabetes complications should be individualized in older adults with diabetes. Prioritize screening for complications that would lead to impairment of functional status or quality of life. C"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc13.md",
+      "difficulty": "single-hop"
+    }
+  },
+  {
+    "user_input": "When should pharmacologic therapy be started for a child or adolescent diagnosed with type 2 diabetes?",
+    "reference": "At diagnosis of type 2 diabetes, initiate pharmacologic therapy (with consideration of multiple add-on therapies early) alongside behavioral counseling on nutrition and physical activity.",
+    "reference_contexts": [
+      "TYPE 2 DIABETES IN CHILDREN AND ADOLESCENTS > Pharmacologic Management > _Recommendations_\n\n14.33 Initiate pharmacologic therapy with consideration of multiple add-on therapies early on, in addition to behavioral counseling for healthful nutrition and physical activity changes, at diagnosis of type 2 diabetes. A 14.34 In individuals with incidentally diagnosed type 2 diabetes (A1C <8.5% [<69 mmol/mol] and asymptomatic), metformin is the initial pharmacologic treatment of choice unless contraindicated by kidney function. A"
+    ],
+    "metadata": {
+      "pillar": "medication",
+      "section": "doc14.md",
+      "difficulty": "single-hop"
+    }
+  }
+]

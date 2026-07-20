@@ -1,0 +1,24 @@
+# # === Model (pinned to Colab training versions — must match to load the saved model) ===
+# pandas==2.2.2
+# scikit-learn==1.6.1
+# xgboost==3.3.0
+# numpy
+# joblib
+
+# # === Visualization / notebook ===
+# matplotlib
+# seaborn
+# ipykernel
+
+# # === Web app (FastAPI + HTML UI) — installed when the app stage is built ===
+# # fastapi
+# # uvicorn[standard]
+# # jinja2
+# # pydantic
+# # python-multipart
+
+# # === RAG (local LLM) — installed when the RAG stage is built ===
+# # sentence-transformers
+# # faiss-cpu
+# # ollama
+

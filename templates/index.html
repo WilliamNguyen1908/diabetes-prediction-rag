@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diabetes Stage Prediction</title>
+  <style>
+    :root { --bg:#f4f6fb; --card:#fff; --line:#e2e6ee; --accent:#2563eb; --ink:#1e293b; --muted:#64748b; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; }
+    p.sub { color: var(--muted); margin: 0 0 24px; }
+    form { background: var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; }
+    fieldset { border:none; padding:0; margin:0 0 28px; }
+    legend { font-weight:600; font-size:1.05rem; padding:0; margin-bottom:14px; color:var(--accent); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:14px 18px; }
+    label { display:flex; flex-direction:column; font-size:0.8rem; color:var(--muted); gap:5px; }
+    .field-name { color:var(--ink); font-weight:500; }
+    input, select { padding:9px 10px; border:1px solid var(--line); border-radius:8px; font-size:0.92rem; background:#fff; color:var(--ink); }
+    input:focus, select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+    button { background:var(--accent); color:#fff; border:none; padding:12px 22px; border-radius:9px; font-size:1rem; font-weight:600; cursor:pointer; }
+    button:disabled { opacity:.6; cursor:progress; }
+    #result { margin-top:24px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; display:none; }
+    #result.show { display:block; }
+    .stage { font-size:1.5rem; font-weight:700; margin:0 0 16px; }
+    .bar-row { display:flex; align-items:center; gap:12px; margin:9px 0; }
+    .bar-label { width:120px; font-size:.9rem; }
+    .bar-track { flex:1; background:#eef1f7; border-radius:6px; overflow:hidden; height:20px; }
+    .bar-fill { height:100%; background:var(--accent); }
+    .bar-pct { width:52px; text-align:right; font-variant-numeric:tabular-nums; font-size:.9rem; }
+    .err { color:#b91c1c; }
+    #result h2 { font-size:1.15rem; margin:26px 0 6px; }
+    .comorbid-step, #recommendations { display:none; }
+    .comorbid-step.show, #recommendations.show { display:block; }
+    .comorbid-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:10px 18px; margin:14px 0 18px; }
+    .comorbid-item { display:flex; align-items:center; justify-content:space-between; gap:10px; border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:.9rem; }
+    .toggle { display:inline-flex; border:1px solid var(--line); border-radius:7px; overflow:hidden; }
+    .toggle button { background:#fff; color:var(--muted); border:none; padding:5px 12px; font-size:.82rem; font-weight:600; cursor:pointer; }
+    .toggle button.on { background:var(--accent); color:#fff; }
+    #rec-body { line-height:1.55; font-size:.95rem; }
+    #rec-body h3 { font-size:1rem; color:var(--accent); margin:18px 0 6px; }
+    #rec-body ul { margin:6px 0 6px 2px; padding-left:20px; }
+    #rec-body li { margin:4px 0; }
+    #rec-body sup { color:var(--accent); font-weight:600; font-size:.72em; }
+    #rec-sources { margin-top:18px; border-top:1px solid var(--line); padding-top:12px; font-size:.82rem; color:var(--muted); }
+    #rec-sources ol { margin:6px 0; padding-left:22px; }
+    .disclaimer { margin-top:16px; font-size:.8rem; color:var(--muted); font-style:italic; }
+    .spinner { display:inline-block; width:14px; height:14px; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin .7s linear infinite; vertical-align:-2px; margin-right:6px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Diabetes Stage Prediction</h1>
+    <p class="sub">Enter patient details to predict diabetes stage. Defaults reflect a typical low-risk profile.</p>
+
+    <form id="patient-form">
+      <fieldset>
+        <legend>Clinical &amp; lifestyle measurements</legend>
+        <div class="grid">
+          {% for f in numeric %}
+          <label>
+            <span class="field-name">{{ f.name.replace('_', ' ') }}</span>
+            <input type="number" step="any" name="{{ f.name }}" value="{{ f.default }}" required>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Medical history</legend>
+        <div class="grid">
+          {% for b in binary %}
+          <label>
+            <span class="field-name">{{ b.replace('_', ' ') }}</span>
+            <select name="{{ b }}" data-type="int">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Demographics</legend>
+        <div class="grid">
+          {% for name, opts in choices.items() %}
+          <label>
+            <span class="field-name">{{ name.replace('_', ' ') }}</span>
+            <select name="{{ name }}">
+              {% for o in opts %}<option value="{{ o }}">{{ o }}</option>{% endfor %}
+            </select>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <button type="submit">Predict stage</button>
+    </form>
+
+    <div id="result">
+      <p class="stage" id="stage"></p>
+      <div id="bars"></div>
+
+      <div id="comorbid-step" class="comorbid-step">
+        <h2>A few more questions</h2>
+        <p class="sub">Answer these so the recommendations can account for relevant conditions.</p>
+        <div class="comorbid-grid" id="comorbid-grid"></div>
+        <button type="button" id="recommend-btn">Get recommendations</button>
+      </div>
+
+      <div id="recommendations">
+        <h2>Personalized recommendations</h2>
+        <div id="rec-body"></div>
+        <div id="rec-sources"></div>
+        <p class="disclaimer">Educational information generated from clinical guidelines — not a substitute for professional medical advice.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('patient-form');
+    const resultBox = document.getElementById('result');
+    const stageEl = document.getElementById('stage');
+    const barsEl = document.getElementById('bars');
+    const comorbidStep = document.getElementById('comorbid-step');
+    const comorbidGrid = document.getElementById('comorbid-grid');
+    const recommendBtn = document.getElementById('recommend-btn');
+    const recBox = document.getElementById('recommendations');
+    const recBody = document.getElementById('rec-body');
+    const recSources = document.getElementById('rec-sources');
+
+    // Comorbidity questions. `term` is the token sent to the RAG query when "Yes".
+    const COMORBIDITIES = [
+      { label: 'Heart failure', term: 'heart failure' },
+      { label: 'Chronic kidney disease', term: 'chronic kidney disease' },
+      { label: 'Cardiovascular disease (ASCVD)', term: 'atherosclerotic cardiovascular disease' },
+      { label: 'Stroke', term: 'stroke' },
+      { label: 'Hypertension', term: 'hypertension' },
+      { label: 'Obesity', term: 'obesity' },
+    ];
+    const comorbidState = {};
+
+    // Build the comorbidity toggles once.
+    COMORBIDITIES.forEach((c) => {
+      comorbidState[c.term] = false;
+      const item = document.createElement('div');
+      item.className = 'comorbid-item';
+      item.innerHTML = `<span>${c.label}</span>
+        <span class="toggle">
+          <button type="button" data-v="0" class="on">No</button>
+          <button type="button" data-v="1">Yes</button>
+        </span>`;
+      const [noBtn, yesBtn] = item.querySelectorAll('button');
+      yesBtn.addEventListener('click', () => { comorbidState[c.term] = true; yesBtn.classList.add('on'); noBtn.classList.remove('on'); });
+      noBtn.addEventListener('click', () => { comorbidState[c.term] = false; noBtn.classList.add('on'); yesBtn.classList.remove('on'); });
+      comorbidGrid.appendChild(item);
+    });
+
+    function collectPatient() {
+      const payload = {};
+      for (const el of form.elements) {
+        if (!el.name) continue;
+        if (el.tagName === 'INPUT') payload[el.name] = parseFloat(el.value);
+        else if (el.dataset.type === 'int') payload[el.name] = parseInt(el.value, 10);
+        else payload[el.name] = el.value;
+      }
+      return payload;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.textContent = 'Predicting…';
+      recBox.classList.remove('show');   // reset any previous recommendations
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(collectPatient()),
+        });
+        if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+        renderResult(await res.json());
+      } catch (err) {
+        resultBox.classList.add('show');
+        stageEl.innerHTML = '<span class="err">Error: ' + err.message + '</span>';
+        barsEl.innerHTML = '';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Predict stage';
+      }
+    });
+
+    function renderResult(data) {
+      stageEl.textContent = 'Predicted stage: ' + data.stage;
+      const entries = Object.entries(data.probabilities).sort((a, b) => b[1] - a[1]);
+      barsEl.innerHTML = entries.map(([cls, p]) => {
+        const pct = (p * 100).toFixed(1);
+        return `<div class="bar-row">
+                  <div class="bar-label">${cls}</div>
+                  <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+                  <div class="bar-pct">${pct}%</div>
+                </div>`;
+      }).join('');
+      resultBox.classList.add('show');
+      comorbidStep.classList.add('show');       // reveal the comorbidity questions
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    recommendBtn.addEventListener('click', async () => {
+      recommendBtn.disabled = true;
+      recommendBtn.innerHTML = '<span class="spinner"></span>Generating (this can take ~20s)…';
+      recBox.classList.add('show');
+      recBody.innerHTML = ''; recSources.innerHTML = '';
+      const payload = collectPatient();
+      payload.comorbidities = Object.keys(comorbidState).filter((t) => comorbidState[t]);
+      try {
+        const res = await fetch('/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+        const data = await res.json();
+        recBody.innerHTML = mdToHtml(data.recommendations);
+        if (data.sources && data.sources.length) {
+          recSources.innerHTML = '<strong>Sources (retrieved guideline excerpts)</strong><ol>' +
+            data.sources.map((s) => `<li>${esc(s.source_file)}${s.heading ? ' — ' + esc(s.heading) : ''}</li>`).join('') +
+            '</ol>';
+        }
+        recBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (err) {
+        recBody.innerHTML = '<span class="err">Error: ' + err.message + '</span>';
+      } finally {
+        recommendBtn.disabled = false;
+        recommendBtn.textContent = 'Get recommendations';
+      }
+    });
+
+    function esc(s) {
+      return s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+    }
+
+    // Minimal Markdown -> HTML for the LLM output: bold headings, bullet lists,
+    // **bold**, and [n] citations as superscripts. Escapes HTML first.
+    function mdToHtml(md) {
+      const lines = esc(md).split('\n');
+      let html = '', inList = false;
+      const inline = (t) => t
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[(\d+)\]/g, '<sup>[$1]</sup>');
+      for (let raw of lines) {
+        const line = raw.trim();
+        if (!line) { if (inList) { html += '</ul>'; inList = false; } continue; }
+        const heading = line.match(/^\*\*(.+?)\*\*:?$/) || line.match(/^#{1,4}\s+(.+)$/);
+        if (heading) {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += '<h3>' + inline(heading[1]) + '</h3>';
+        } else if (/^[-*]\s+/.test(line)) {
+          if (!inList) { html += '<ul>'; inList = true; }
+          html += '<li>' + inline(line.replace(/^[-*]\s+/, '')) + '</li>';
+        } else {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += '<p>' + inline(line) + '</p>';
+        }
+      }
+      if (inList) html += '</ul>';
+      return html;
+    }
+  </script>
+</body>
+</html>
