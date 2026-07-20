@@ -41,8 +41,54 @@ after trying the default and watching it fail. Full history in
 | **Corrective retrieval** | If a comorbidity has no supporting chunk, an LLM rewrites the query and retries (CRAG-style) | Accepting the first miss | A patient's heart-failure guidance shouldn't silently vanish because one query phrasing missed. |
 | **Re-ranking** | **Cross-encoder** (`bge-reranker-base`) rescores the merged candidate pool → top 12 | Trusting RRF order | Retrieve-then-rerank: the bi-encoder casts a wide net fast; the cross-encoder reads query+chunk together for precise final ordering. |
 | **Generation** | Grounded prompt: context-only answers with `[n]` citations, personalized to the patient's own values, **llama3.1 local by default / Claude opt-in** | Cloud-only | Privacy: the patient profile is in the prompt. The A/B eval says Claude is clearly better (relevancy 0.81 vs 0.51) — that trade-off is documented, measured, and left to the operator. |
-| **Guardrails** | Input consistency validation (400 on contradictions), **deterministic drug-name redaction** (a drug not present in the retrieved context never reaches the user), NLI entailment tripwire per claim, output structure checks | Trusting the LLM | The model *did* invent drug names when the context lacked medications — observed, then made impossible by construction, not by prompt-begging. |
+| **Guardrails** | Input consistency validation (400 on contradictions), **deterministic drug-name redaction** (a drug not present in the retrieved context never reaches the user), NLI entailment tripwire per claim, output structure checks — see [Guardrails in depth](#guardrails-in-depth) | Trusting the LLM | The model *did* invent drug names when the context lacked medications — observed, then made impossible by construction, not by prompt-begging. |
 | **Audit** | Every request logged to SQLite: patient profile, formed queries, retrieved chunks | Black-box responses | Reproducibility and review — you can reconstruct exactly why any recommendation was made. |
+
+## Guardrails in depth
+
+Two layers, on either side of the LLM. The key insight for the first layer:
+**every retrieval query is built from the user's form input and comorbidity
+clicks** — so a contradictory input produces a wrong query, which retrieves the
+wrong guideline documents, which grounds the generation in the wrong context.
+Validating input isn't just UX; it protects retrieval itself.
+
+Enforcement legend: 🛑 **reject** (HTTP 400, nothing runs) · 🔁 **auto-retry**
+(corrective retrieval) · ⚠️ **warn** (surfaced to the user, request proceeds) ·
+✂️ **redact** (removed from the output) · 📝 **prompt-enforced** (instruction to
+the model, checked only by eval).
+
+### Layer 1 — before retrieval: input consistency (`rag/validation.py::validate_input`)
+
+| Rule | Enforcement |
+|---|---|
+| Stroke/ASCVD comorbidity = Yes requires cardiovascular history = Yes (a stroke *is* cardiovascular history) | 🛑 reject |
+| Required fields present: age, BMI, and at least one glycemic value (HbA1c or fasting glucose) | 🛑 reject |
+| Every numeric field within physiological range (HbA1c 3–20 %, BMI 10–70, BP/lipids/glucose within human limits) — impossible values never reach the pipeline | 🛑 reject |
+| Hypertension flag (or measured BP ≥ 140/90) with hypertension history = No | ⚠️ warn |
+| Obesity flag with BMI < 25 — the flag contradicts the measurement | ⚠️ warn |
+| Predicted stage must agree with entered labs: "No Diabetes" with HbA1c ≥ 6.5 % / fasting ≥ 126, or "Type 2" with normal labs → reconcile classifier vs. labs | ⚠️ warn |
+| Low-prior combinations surfaced, not silently used (e.g. age < 30 with stroke = Yes → "please confirm" before a secondary-prevention plan) | ⚠️ warn |
+
+### Layer 2 — around the context and output
+
+**Retrieval coverage** (`check_retrieval_coverage`): every Yes-comorbidity must
+have at least one supporting chunk in the assembled context. A missing branch
+triggers an LLM query rewrite and one re-retrieval 🔁; still missing → the
+model is told to say "retrieved guidelines don't cover this" rather than
+improvise 📝. Near-duplicate chunks are de-duplicated and every chunk carries
+its source file + section heading so citations resolve.
+
+**Output checks** (`check_output`, `generate.apply_drug_safety`, `rag/grounding.py`):
+
+| Rule | Enforcement |
+|---|---|
+| Every drug name in the output literally appears in the retrieved context | ✂️ redact |
+| No medication doses or titration schedules, anywhere | ⚠️ warn + 📝 |
+| Every `[n]` citation maps to an actually-retrieved source | ⚠️ warn |
+| Required section headings + safety disclaimer present | ⚠️ warn |
+| Per-claim NLI entailment against context + patient profile (hallucination tripwire) | ⚠️ warn |
+| Applicability: weight-loss advice only for elevated BMI, glucose-lowering meds only if stage ≠ "No Diabetes", lipid/BP therapy only when values or comorbidities warrant it | 📝 prompt-enforced |
+| Every recommendation cites the patient's own values; comorbidities addressed before generic lifestyle advice; no definitive-diagnosis language | 📝 prompt-enforced |
 
 ## Evaluation
 
