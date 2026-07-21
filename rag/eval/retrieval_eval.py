@@ -116,7 +116,7 @@ def main():
         json.dumps({"k": k, "threshold": threshold,
                     **{m: out[m]["overall"] for m in modes},
                     "per_pillar_hybrid": per_pillar}, indent=2), encoding="utf-8")
-    print("\nSaved rag/eval/retrieval_results.json")
+    print("\nSaved rag/eval/results/retrieval_results.json")
 
 
 if __name__ == "__main__":

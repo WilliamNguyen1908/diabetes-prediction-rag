@@ -23,7 +23,7 @@ RESULTS_DIR = EVAL_DIR / "results"   # eval outputs now live in eval/results/
 # --- validated categorical + status palette (from the dataviz reference) ---
 BLUE, AQUA = "#2a78d6", "#1baf7a"        # categorical slots 1 & 2
 GOOD, CRIT = "#0ca30c", "#d03b3b"        # status
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
+INK, INK2, MUTED = "#0b0b0b", "#52514e", "#212120"
 GRID, SURFACE = "#e1e0d9", "#fcfcfb"
 
 plt.rcParams.update({
@@ -76,10 +76,11 @@ def stat_tile(ax, value, label, color, sub=""):
 def main():
     ret = load("retrieval_results.json")
     gen = load("generator_results.json")["summary"]
+    comparison = load("generator_comparison.json")
     judge = load("judge_results.json")
 
     fig = plt.figure(figsize=(13, 9))
-    gs = fig.add_gridspec(3, 4, height_ratios=[1.15, 0.55, 1.25], hspace=0.7, wspace=0.4,
+    gs = fig.add_gridspec(3, 4, height_ratios=[1.15, 0.55, 1.25], hspace=0.35, wspace=0.4,
                           left=0.07, right=0.97, top=0.84, bottom=0.08)
     fig.suptitle("Diabetes RAG — Evaluation Results", x=0.07, y=0.965, ha="left",
                  fontsize=17, fontweight="bold", color=INK)
@@ -92,24 +93,24 @@ def main():
     labels = ["coverage", "recall@k", "hit@k", "MRR"]
     hy = [ret["hybrid"][m] for m in metrics]
     de = [ret["dense"][m] for m in metrics]
-    grouped_bars(ax1, labels, hy, de, "Hybrid (dense+BM25+RRF)", "Dense only", BLUE, AQUA)
+    grouped_bars(ax1, labels, hy, de, "Hybrid (dense + BM25 + RRF)", "Dense only", BLUE, AQUA)
     style_axis(ax1)
     ax1.set_title(f"Retrieval quality (k={ret['k']}, 43 questions)", fontsize=12,
                   fontweight="bold", color=INK, loc="left", pad=26)
     ax1.legend(frameon=False, fontsize=9, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2)
 
-    # --- Panel 2: overall generation metrics ---
+    # --- Panel 2: overall generation metrics, model comparison ---
     ax2 = fig.add_subplot(gs[0, 2:])
-    over = ["faithfulness", "answer_relevancy"]
-    ov_vals = [judge["summary"]["faithfulness"], judge["summary"]["answer_relevancy"]]
-    b = ax2.bar([0, 1], ov_vals, 0.5, color=[BLUE, AQUA], zorder=3)
-    for r in b:
-        ax2.annotate(f"{r.get_height():.2f}", (r.get_x() + r.get_width() / 2, r.get_height()),
-                     xytext=(0, 3), textcoords="offset points", ha="center", fontsize=9, color=INK2)
-    ax2.set_xticks([0, 1]); ax2.set_xticklabels(["faithfulness", "answer\nrelevancy"])
+    gen_metrics = ["faithfulness", "answer_relevancy"]
+    gen_labels = ["faithfulness", "answer\nrelevancy"]
+    sonnet = [comparison["claude-sonnet-4-6"][m] for m in gen_metrics]
+    llama = [comparison["llama3.1"][m] for m in gen_metrics]
+    grouped_bars(ax2, gen_labels, sonnet, llama, "claude-sonnet-4-6", "llama3.1", BLUE, AQUA)
     style_axis(ax2)
-    ax2.set_title(f"Generation, overall (judge: {judge['summary']['judge']})", fontsize=12,
-                  fontweight="bold", color=INK, loc="left", pad=10)
+    ax2.set_ylim(0, 1.08)  # headroom so sonnet's ~0.99 label doesn't clip
+    ax2.set_title("Generation Comparison (Sonet4.6 vs Llama3.1)", fontsize=12,
+                  fontweight="bold", color=INK, loc="left", pad=26)
+    ax2.legend(frameon=False, fontsize=9, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2)
 
     # --- Panel row 2: safety stat tiles ---
     reach = int(gen.get("ungrounded_reaching_user", 0))
@@ -143,7 +144,7 @@ def main():
                   fontsize=11.5, fontweight="bold", color=INK, loc="left", pad=26)
     ax3.legend(frameon=False, fontsize=9, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2)
 
-    out = EVAL_DIR / "results.png"
+    out = EVAL_DIR / "result.png"
     fig.savefig(out, dpi=150, facecolor=SURFACE)
     print(f"Saved {out}")
 
