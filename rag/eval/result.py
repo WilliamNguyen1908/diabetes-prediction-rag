@@ -108,7 +108,7 @@ def main():
     grouped_bars(ax2, gen_labels, sonnet, llama, "claude-sonnet-4-6", "llama3.1", BLUE, AQUA)
     style_axis(ax2)
     ax2.set_ylim(0, 1.08)  # headroom so sonnet's ~0.99 label doesn't clip
-    ax2.set_title("Generation Comparison (Sonet4.6 vs Llama3.1)", fontsize=12,
+    ax2.set_title("Generator Comparison (Sonet4.6 vs Llama3.1)", fontsize=12,
                   fontweight="bold", color=INK, loc="left", pad=26)
     ax2.legend(frameon=False, fontsize=9, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2)
 
