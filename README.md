@@ -5,7 +5,7 @@ XGBoost model from a web form, then generates **personalized, guideline-grounded
 health recommendations** with a RAG pipeline over 13 ADA (American Diabetes
 Association) clinical guideline PDFs — with safety guardrails at every step.
 
-![Evaluation results](rag/eval/results.png)
+![Evaluation results](rag/eval/result.png)
 
 ## Try it (Docker)
 
@@ -106,7 +106,7 @@ embedding-based retrieval metrics cross-validated by an LLM judge:
 
 Reproduce: `uv run python rag/eval/retrieval_eval.py`, `judge_direct.py`,
 `compare_generators.py` (the judged ones need `ANTHROPIC_API_KEY`). Figure:
-`rag/eval/result.py` → `results.png`.
+`rag/eval/result.py` → `result.png`.
 
 ## Prediction model
 
