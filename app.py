@@ -34,7 +34,7 @@ templates = Jinja2Templates(directory="templates")
 #   * per-IP  hourly  — stops one visitor from monopolising the demo
 #   * global  daily   — a hard cost ceiling so a public URL can't run up the bill
 _PER_IP_PER_HOUR = int(os.environ.get("RECOMMEND_PER_IP_PER_HOUR", "5"))
-_GLOBAL_PER_DAY = int(os.environ.get("RECOMMEND_GLOBAL_PER_DAY", "100"))
+_GLOBAL_PER_DAY = int(os.environ.get("RECOMMEND_GLOBAL_PER_DAY", "20"))
 _ip_hits: dict[str, deque] = defaultdict(deque)
 _global_hits: deque = deque()
 _rl_lock = threading.Lock()
