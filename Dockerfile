@@ -71,4 +71,7 @@ ENV RECOMMEND_DB=/data/recommendation_log.db
 RUN mkdir -p /data
 
 EXPOSE 8000
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Honor $PORT if the platform injects one (Cloud Run sets it, default 8080),
+# otherwise fall back to 8000 (compose / HF Space / local). `exec` makes uvicorn
+# PID 1 so it receives SIGTERM for graceful shutdown.
+CMD ["sh", "-c", "exec uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000}"]

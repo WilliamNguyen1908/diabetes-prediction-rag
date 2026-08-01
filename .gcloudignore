@@ -1,0 +1,29 @@
+# Files NOT uploaded to Cloud Build (keeps the build context small + fast).
+# The image itself is further trimmed by .dockerignore during `docker build`.
+.git
+.gitignore
+.venv
+__pycache__
+**/__pycache__
+*.py[oc]
+.DS_Store
+
+# Secrets & local state — never upload
+.env
+recommendation_log.db
+
+# Training data / notebooks — not needed at runtime
+diabetes.csv
+model.ipynb
+
+# RAG build inputs (the image ships only the prebuilt knowledge/index/)
+knowledge/pdfs
+knowledge/md
+
+# Eval suite, deploy folders, docs — not part of the runtime image
+rag/eval
+hf_space
+CLAUDE.md
+workflow.md
+experience.md
+docker-compose.yml
