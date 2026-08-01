@@ -3,7 +3,11 @@
 Run:  uv run uvicorn app:app --reload
 Then open http://127.0.0.1:8000
 """
+import os
 import sys
+import threading
+import time
+from collections import defaultdict, deque
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -22,6 +26,49 @@ from validation import validate_input  # noqa: E402
 
 app = FastAPI(title="Diabetes Stage Prediction")
 templates = Jinja2Templates(directory="templates")
+
+
+# --- rate limiting for /recommend (the only endpoint that calls a paid LLM) -----
+# In-memory, single-process — right-sized for a single-container demo (e.g. a
+# Hugging Face Space). Two independent limits, both tunable via env:
+#   * per-IP  hourly  — stops one visitor from monopolising the demo
+#   * global  daily   — a hard cost ceiling so a public URL can't run up the bill
+_PER_IP_PER_HOUR = int(os.environ.get("RECOMMEND_PER_IP_PER_HOUR", "5"))
+_GLOBAL_PER_DAY = int(os.environ.get("RECOMMEND_GLOBAL_PER_DAY", "100"))
+_ip_hits: dict[str, deque] = defaultdict(deque)
+_global_hits: deque = deque()
+_rl_lock = threading.Lock()
+
+
+def _client_ip(request: Request) -> str:
+    """Real client IP — behind HF/other proxies it's first in X-Forwarded-For."""
+    fwd = request.headers.get("x-forwarded-for")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _enforce_rate_limit(request: Request):
+    """Raise 429 if the per-IP hourly or global daily quota is exceeded."""
+    now = time.time()
+    ip = _client_ip(request)
+    with _rl_lock:
+        while _global_hits and _global_hits[0] < now - 86_400:
+            _global_hits.popleft()
+        hits = _ip_hits[ip]
+        while hits and hits[0] < now - 3_600:
+            hits.popleft()
+        if not hits:                       # keep the map from growing unbounded
+            _ip_hits.pop(ip, None)
+            hits = _ip_hits[ip]
+        if len(_global_hits) >= _GLOBAL_PER_DAY:
+            raise HTTPException(status_code=429, detail={
+                "message": "This demo has reached its daily usage cap. Please try again tomorrow."})
+        if len(hits) >= _PER_IP_PER_HOUR:
+            raise HTTPException(status_code=429, detail={
+                "message": f"Rate limit reached ({_PER_IP_PER_HOUR}/hour). Please wait a bit and retry."})
+        hits.append(now)
+        _global_hits.append(now)
 
 
 # --- input schema: validated against the model's own choices/fields ------------
@@ -89,8 +136,9 @@ class RecommendRequest(Patient):
 
 
 @app.post("/recommend")
-def recommend(req: RecommendRequest):
-    """Predict the stage, then generate RAG-grounded recommendations (llama3.1)."""
+def recommend(req: RecommendRequest, request: Request):
+    """Predict the stage, then generate RAG-grounded recommendations (LLM)."""
+    _enforce_rate_limit(request)  # gate the paid LLM call before any work
     from generate import generate_recommendations  # lazy: loads embedder/LLM on first call
 
     patient = req.model_dump()
