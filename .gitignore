@@ -25,3 +25,6 @@ CLAUDE.md
 
 # Audit log DB (may contain patient data)
 recommendation_log.db
+
+# Hugging Face Space deploy folder (its own git repo; pushed to HF, not GitHub)
+hf_space/
