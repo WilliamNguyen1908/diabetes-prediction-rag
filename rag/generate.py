@@ -282,18 +282,95 @@ def summarize_patient(patient: dict) -> str:
 # prevention/screening for non-diabetic & prediabetic, management + treatment for type 2.
 _STAGE_QUERIES = {
     "No Diabetes": [
-        "diet, nutrition, and physical activity to prevent type 2 diabetes and reduce cardiometabolic risk factors",
-        "screening for type 2 diabetes and prediabetes in asymptomatic adults, age to begin screening and rescreening interval",
-        "healthy eating patterns, weight management, and exercise to maintain normoglycemia and lower diabetes risk",
-        "risk factors for type 2 diabetes and when to test overweight or obese adults regardless of age",
+    # Screening trigger & interval — doc2 (§2)   << the anchor for this stage
+    "screening for prediabetes and type 2 diabetes in asymptomatic adults: begin testing at "
+    "age 35, test at any age with overweight or obesity plus risk factors, and repeat "
+    "screening at a minimum of 3-year intervals if results are normal",
+
+    # Risk factors — doc2 (§2), Table 2.5
+    "risk factors that warrant diabetes screening: BMI >=25 (>=23 in Asian ancestry), "
+    "first-degree relative with diabetes, high-risk race or ethnicity, cardiovascular disease, "
+    "hypertension, low HDL or high triglycerides, polycystic ovary syndrome, physical inactivity",
+
+    # Special-population screening triggers — doc2 (§2)   << addition
+    "additional screening situations: people taking statins, thiazide diuretics, "
+    "second-generation antipsychotics, glucocorticoids, or HIV medications; history of "
+    "gestational diabetes requiring lifelong screening every 1-3 years",
+
+    # Diagnostic thresholds — doc2 (§2)   << addition: lets the model interpret their numbers
+    "criteria for diagnosing diabetes and prediabetes: A1C, fasting plasma glucose, and 2-hour "
+    "plasma glucose thresholds, and the ranges defining impaired fasting glucose and impaired "
+    "glucose tolerance",
+
+    # Preventive nutrition — doc5 (§5) + doc3 (§3)
+    "healthy eating patterns to lower type 2 diabetes risk: Mediterranean, DASH, and "
+    "plant-based patterns emphasizing whole grains, legumes, nuts, fruits, and vegetables while "
+    "limiting sugar-sweetened beverages, refined grains, and ultraprocessed foods",
+
+    # Preventive activity — doc5 (§5)
+    "physical activity to reduce diabetes and cardiometabolic risk: at least 150 minutes per "
+    "week of moderate-to-vigorous aerobic activity, resistance training, and interrupting "
+    "prolonged sitting",
+
+    # Weight maintenance — doc3 (§3) + doc8 (§8)
+    "weight management and prevention of weight gain to lower risk of developing type 2 "
+    "diabetes in adults at risk",
+
+    # Other modifiable risk factors — doc5 (§5)   << addition
+    "tobacco and vaping cessation, alcohol limits, and sleep duration and quality as "
+    "modifiable risk factors for type 2 diabetes",
+
+    # Cardiometabolic risk factors — doc10 (§10)
+    "management of blood pressure and lipids to reduce cardiovascular risk in adults without "
+    "diabetes but with cardiometabolic risk factors",
     ],
+
     "Pre-Diabetes": [
-        "prediabetes lifestyle intervention: reduced-calorie diet, 5–7% weight loss goal, and 150 minutes weekly physical activity to prevent type 2 diabetes",
-        "evidence-based eating patterns such as Mediterranean or low-carbohydrate for adults with prediabetes",
-        "metformin and pharmacologic options to prevent or delay type 2 diabetes in high-risk adults with prediabetes",
-        "diabetes prevention program structure, weight-loss and activity goals, and effectiveness for delaying progression",
-        "monitoring and annual testing for progression from prediabetes to diabetes; sleep and behavioral factors",
+    # Core lifestyle prescription — doc3 (§3)
+    "prediabetes lifestyle intervention to prevent type 2 diabetes: 5-7% weight loss goal, "
+    "reduced-calorie eating plan, and at least 150 minutes per week of moderate-intensity "
+    "physical activity",
+
+    # Diabetes Prevention Program structure/efficacy — doc3 (§3)
+    "Diabetes Prevention Program (DPP) structure, core curriculum, weight and activity goals, "
+    "risk reduction, and technology-assisted or National DPP delivery",
+
+    # Eating patterns — doc3 + doc5
+    "evidence-based eating patterns for adults with prediabetes: Mediterranean, DASH, "
+    "plant-based, and low-carbohydrate; whole grains, legumes, nuts, fruits, and vegetables",
+
+    # Physical activity detail — doc5 (§5)
+    "aerobic and resistance physical activity and reducing sedentary time to improve insulin "
+    "sensitivity in adults with prediabetes",
+
+    # Pharmacologic prevention — doc3 (§3)
+    "metformin for prevention of type 2 diabetes in high-risk adults with prediabetes: "
+    "who benefits most (BMI >=35, higher fasting glucose and A1C, prior gestational diabetes) "
+    "and vitamin B12 monitoring",
+
+    # Negative evidence — doc3 (§3)   << addition: lets the model say 'not recommended'
+    "agents not recommended for diabetes prevention: vitamin D, testosterone, and valsartan; "
+    "no FDA-approved drug for preventing type 2 diabetes",
+
+    # Weight-loss pharmacotherapy in prediabetes — doc8 (§8) + doc3
+    "medication-assisted weight loss to sustain 7-10% weight loss in people at risk for "
+    "type 2 diabetes: GLP-1 and dual GIP/GLP-1 receptor agonists, orlistat, "
+    "phentermine-topiramate",
+
+    # Cardiovascular risk — doc3 (§3) + doc10   << addition: prediabetes raises CV risk
+    "cardiovascular risk in prediabetes: screening and treatment of modifiable risk factors, "
+    "hypertension and dyslipidemia, statin therapy and its effect on diabetes risk, and "
+    "tobacco cessation",
+
+    # Sleep & behavior — doc3 (§3) + doc5 (§5)
+    "sleep duration, sleep quality, and chronotype as risk factors for type 2 diabetes, and "
+    "behavioral strategies to sustain lifestyle change",
+
+    # Monitoring / progression — doc3 (§3) + doc2 (§2)
+    "monitoring people with prediabetes for progression to diabetes with at least annual "
+    "testing, and person-centered goals for those at highest risk",
     ],
+    
     "Type 2": [
     # Diet / nutrition — doc5 (§5)
     "type 2 diabetes medical nutrition therapy and eating patterns: Mediterranean, DASH, "
@@ -388,7 +465,8 @@ def build_queries(stage: str, comorbidities=None):
     ASCVD, ACEi/ARB for hypertension, GLP-1/tirzepatide for obesity) surface as high-value
     BM25 tokens instead of a generic one-size-fits-all list."""
     comorbidities = comorbidities or []
-    # Each entry is (source_label, query) so callers can see how the query was formed.
+    # Each entry is (source_label, query) so callers can see how the query was formed. We set default = Type 2 because 
+    # under-treating a diabetic is worse than over-informing a healthy person. It's a defensive default.
     labeled = [(f"stage:{stage}", q) for q in _STAGE_QUERIES.get(stage, _STAGE_QUERIES["Type 2"])]
     for c in comorbidities:
         canon = _canonical(c)
