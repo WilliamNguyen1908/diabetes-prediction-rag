@@ -5,6 +5,10 @@ XGBoost model from a web form, then generates **personalized, guideline-grounded
 health recommendations** with a RAG pipeline over 13 ADA (American Diabetes
 Association) clinical guideline PDFs — with safety guardrails at every step.
 
+**🚀 Live demo:** https://diabetes-rag-15879488973.us-east1.run.app
+*(Cloud Run, scales to zero — the first request after idle takes ~1–2 min to warm up.
+Synthetic-data demo, not medical advice.)*
+
 ![Evaluation results](rag/eval/result.png)
 
 ## Try it (Docker)
