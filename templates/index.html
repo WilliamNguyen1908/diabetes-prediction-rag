@@ -50,6 +50,21 @@
     @keyframes spin { to { transform:rotate(360deg); } }
     .demo-banner { background:#fef3c7; border:1px solid #fcd34d; color:#92400e; border-radius:10px; padding:12px 16px; font-size:.85rem; line-height:1.5; margin:0 0 22px; }
     .demo-banner strong { color:#78350f; }
+    .followup { margin-top:22px; border-top:1px solid var(--line); padding-top:18px; display:none; }
+    .followup.show { display:block; }
+    .followup h2 { margin:0 0 4px; }
+    .followup-hint { font-size:.8rem; color:var(--muted); margin:0 0 12px; }
+    .followup-row { display:flex; gap:10px; }
+    .followup-row input { flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:.92rem; background:#fff; color:var(--ink); }
+    .followup-row input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+    #qa-history { margin-top:16px; display:flex; flex-direction:column; gap:16px; }
+    .qa-q { font-weight:600; font-size:.9rem; color:var(--ink); background:#eef2ff; border-radius:8px; padding:8px 12px; }
+    .qa-a { font-size:.9rem; line-height:1.55; margin-top:7px; padding:0 2px; }
+    .qa-a.notice { color:#92400e; background:#fef3c7; border-radius:8px; padding:8px 12px; margin-top:7px; }
+    .qa-a h3 { font-size:.95rem; color:var(--accent); margin:12px 0 4px; }
+    .qa-a ul { margin:5px 0 5px 2px; padding-left:20px; }
+    .qa-a sup { color:var(--accent); font-weight:600; font-size:.72em; }
+    .qa-sources { font-size:.78rem; color:var(--muted); margin-top:7px; }
   </style>
 </head>
 <body>
@@ -125,6 +140,16 @@
         <div id="rec-body"></div>
         <div id="rec-sources"></div>
         <p class="disclaimer">Educational information generated from clinical guidelines — not a substitute for professional medical advice.</p>
+
+        <div id="followup" class="followup">
+          <h2>Ask a follow-up question</h2>
+          <p class="followup-hint">Ask about your recommendations or diabetes care — e.g. “Why an SGLT2 inhibitor?”, “What foods should I limit?”. Diabetes-related questions only.</p>
+          <div class="followup-row">
+            <input id="question-input" type="text" maxlength="300" placeholder="Type your question…">
+            <button type="button" id="ask-btn">Ask</button>
+          </div>
+          <div id="qa-history"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -140,6 +165,13 @@
     const recBox = document.getElementById('recommendations');
     const recBody = document.getElementById('rec-body');
     const recSources = document.getElementById('rec-sources');
+    const followup = document.getElementById('followup');
+    const questionInput = document.getElementById('question-input');
+    const askBtn = document.getElementById('ask-btn');
+    const qaHistory = document.getElementById('qa-history');
+
+    // Snapshot of the patient payload + recommendation text used for follow-up Q&A.
+    let lastContext = null;
 
     // Comorbidity questions. `term` is the token sent to the RAG query when "Yes".
     const COMORBIDITIES = [
@@ -238,6 +270,10 @@
             data.sources.map((s) => `<li>${esc(s.source_file)}${s.heading ? ' — ' + esc(s.heading) : ''}</li>`).join('') +
             '</ol>';
         }
+        // Enable follow-up Q&A: snapshot the payload + recommendation for context.
+        lastContext = { payload, recommendation: data.recommendations };
+        qaHistory.innerHTML = '';
+        followup.classList.add('show');
         recBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } catch (err) {
         recBody.innerHTML = '<span class="err">Error: ' + err.message + '</span>';
@@ -246,6 +282,55 @@
         recommendBtn.textContent = 'Get recommendations';
       }
     });
+
+    // --- Follow-up Q&A -----------------------------------------------------------
+    async function askQuestion() {
+      const q = questionInput.value.trim();
+      if (!q || !lastContext) return;
+      askBtn.disabled = true; questionInput.disabled = true;
+      const item = document.createElement('div');
+      item.innerHTML = `<div class="qa-q">${esc(q)}</div>
+        <div class="qa-a"><span class="spinner"></span>Thinking…</div>`;
+      qaHistory.appendChild(item);
+      const ansEl = item.querySelector('.qa-a');
+      questionInput.value = '';
+      try {
+        const body = { ...lastContext.payload, question: q, prior_recommendation: lastContext.recommendation };
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (res.status === 429) {
+          const d = await res.json();
+          ansEl.className = 'qa-a notice';
+          ansEl.textContent = (d.detail && d.detail.message) || 'Rate limit reached — please wait and retry.';
+          return;
+        }
+        if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+        const data = await res.json();
+        if (data.off_topic) {
+          ansEl.className = 'qa-a notice';
+          ansEl.textContent = data.answer;
+        } else {
+          ansEl.className = 'qa-a';
+          ansEl.innerHTML = mdToHtml(data.answer);
+          if (data.sources && data.sources.length) {
+            const s = document.createElement('div');
+            s.className = 'qa-sources';
+            s.textContent = 'Sources: ' + data.sources.map((x) => x.source_file).join(', ');
+            item.appendChild(s);
+          }
+        }
+      } catch (err) {
+        ansEl.className = 'qa-a notice';
+        ansEl.textContent = 'Error: ' + err.message;
+      } finally {
+        askBtn.disabled = false; questionInput.disabled = false; questionInput.focus();
+      }
+    }
+    askBtn.addEventListener('click', askQuestion);
+    questionInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') askQuestion(); });
 
     function esc(s) {
       return s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));

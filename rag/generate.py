@@ -19,6 +19,7 @@ from functools import lru_cache
 
 import ollama
 
+from embed import embed
 from retrieve import HybridRetriever, rerank_chunks
 from validation import check_output, check_retrieval_coverage
 
@@ -646,6 +647,89 @@ def generate_recommendations(stage: str, comorbidities=None, patient: dict = Non
         "text": c["text"],
     } for c in chunks]
     return result
+
+
+# --- Follow-up Q&A: domain gate + grounded answer -----------------------------
+# After recommendations, the user can ask their own question. To stop off-topic
+# questions from burning LLM tokens, gate every question with a FREE local check
+# BEFORE any paid API call: embed the question and take its max cosine similarity
+# against the guideline corpus. Diabetes-domain questions match some guideline
+# chunk well; unrelated ones ("write me a poem") don't. Only questions that clear
+# the threshold reach the LLM.
+# Calibrated: on-topic diabetes questions score ~0.30-0.66, off-topic ~0.08-0.17.
+# 0.24 sits in the gap (above every off-topic example, below every on-topic one).
+QA_DOMAIN_MIN_SIM = float(os.environ.get("QA_DOMAIN_MIN_SIM", "0.24"))
+
+QA_SYSTEM_PROMPT = (
+    "You are a diabetes education assistant answering a patient's follow-up question about "
+    "their diabetes-care recommendations. Answer using ONLY the numbered guideline excerpts in "
+    "CONTEXT and the patient's own PATIENT PROFILE. "
+    "If the question is not about diabetes, prediabetes, or directly related cardiometabolic care "
+    "(diet, physical activity, glucose/HbA1c, weight, medications, or comorbidities such as heart, "
+    "kidney, blood-pressure, or cholesterol), reply with exactly: "
+    "'I can only answer questions about your diabetes care and related health.' and nothing else. "
+    "Ground every clinical claim in the CONTEXT and cite excerpts inline as [1], [2]. "
+    "Do not invent drug names, doses, or targets that are not in the CONTEXT; if the context is "
+    "insufficient, say so plainly. Do NOT give specific doses or titration. Personalize to the "
+    "patient's own values when relevant. Be concise: a short paragraph or a few bullet points. "
+    "End with: 'This is educational information, not a substitute for professional medical advice.'"
+)
+
+_QA_OFFTOPIC_MSG = (
+    "I can only answer questions about your diabetes care and related health — diet, physical "
+    "activity, glucose, weight, medications, or related conditions. Please rephrase your question "
+    "around your diabetes recommendations."
+)
+
+
+def is_diabetes_related(question: str):
+    """Free, local domain gate. Returns (on_topic: bool, score: float).
+
+    Score = max cosine similarity of the question to any guideline chunk (embeddings
+    are normalized, so a dot product is the cosine). No API call, so off-topic
+    questions are rejected before any paid token is spent."""
+    q = (question or "").strip()
+    if len(q) < 3:
+        return False, 0.0
+    qv = embed([q])[0]
+    sims = _retriever().embeddings @ qv
+    top = float(sims.max())
+    return top >= QA_DOMAIN_MIN_SIM, top
+
+
+def answer_question(question: str, stage: str, comorbidities=None, patient: dict = None,
+                    prior_recommendation: str = ""):
+    """Domain-gated, guideline-grounded answer to a patient follow-up question.
+
+    Off-topic questions are refused for FREE (no LLM call). On-topic ones retrieve
+    fresh context for the question, then generate a short grounded answer with the
+    same drug-safety redaction backstop as the main recommendations."""
+    on_topic, score = is_diabetes_related(question)
+    if not on_topic:
+        return {"off_topic": True, "answer": _QA_OFFTOPIC_MSG, "sources": [],
+                "warnings": [], "domain_score": score}
+
+    # Retrieve for the question itself (single query — cheaper than the full fan-out).
+    hits = _retriever().search(question, k=8, rerank=FINAL_RERANK)
+    patient_summary = summarize_patient(patient) if patient else ""
+    como_line = f"Reported comorbidities: {', '.join(comorbidities)}." if comorbidities else ""
+    prior = (f"\nEARLIER RECOMMENDATION (context for the question):\n{prior_recommendation[:4000]}\n"
+             if prior_recommendation else "")
+    user_prompt = (
+        f"Predicted diabetes stage: {stage}. {como_line}\n\n"
+        f"{patient_summary}\n{prior}\n"
+        f"CONTEXT (numbered guideline excerpts)\n{_format_context(hits)}\n\n"
+        f"PATIENT'S QUESTION: {question}\n\n"
+        f"Answer the question, grounded in the CONTEXT and citing [n]."
+    )
+    raw = _chat(QA_SYSTEM_PROMPT, user_prompt, temperature=0.2, max_tokens=800)
+    text, redacted = apply_drug_safety(raw, hits)   # same drug-grounding backstop
+
+    sources = [{"n": i, "source_file": c["source_file"], "heading": c.get("heading", "")}
+               for i, c in enumerate(hits, 1)]
+    warnings = [f"Redacted ungrounded drug name(s): {', '.join(redacted)}."] if redacted else []
+    return {"off_topic": False, "answer": text, "sources": sources,
+            "warnings": warnings, "domain_score": score}
 
 
 if __name__ == "__main__":

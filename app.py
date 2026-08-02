@@ -28,47 +28,56 @@ app = FastAPI(title="Diabetes Stage Prediction")
 templates = Jinja2Templates(directory="templates")
 
 
-# --- rate limiting for /recommend (the only endpoint that calls a paid LLM) -----
-# In-memory, single-process — right-sized for a single-container demo (e.g. a
-# Hugging Face Space). Two independent limits, both tunable via env:
+# --- rate limiting for the endpoints that call a paid LLM (/recommend, /ask) ----
+# In-memory, single-process — right-sized for a single-container demo. Each limiter
+# enforces two independent limits, both tunable via env:
 #   * per-IP  hourly  — stops one visitor from monopolising the demo
 #   * global  daily   — a hard cost ceiling so a public URL can't run up the bill
-_PER_IP_PER_HOUR = int(os.environ.get("RECOMMEND_PER_IP_PER_HOUR", "5"))
-_GLOBAL_PER_DAY = int(os.environ.get("RECOMMEND_GLOBAL_PER_DAY", "20"))
-_ip_hits: dict[str, deque] = defaultdict(deque)
-_global_hits: deque = deque()
-_rl_lock = threading.Lock()
-
-
+# /recommend and /ask get SEPARATE budgets (same values) so follow-up questions
+# don't consume the recommendation quota.
 def _client_ip(request: Request) -> str:
-    """Real client IP — behind HF/other proxies it's first in X-Forwarded-For."""
+    """Real client IP — behind Cloud Run/HF proxies it's first in X-Forwarded-For."""
     fwd = request.headers.get("x-forwarded-for")
     if fwd:
         return fwd.split(",")[0].strip()
     return request.client.host if request.client else "unknown"
 
 
-def _enforce_rate_limit(request: Request):
-    """Raise 429 if the per-IP hourly or global daily quota is exceeded."""
-    now = time.time()
-    ip = _client_ip(request)
-    with _rl_lock:
-        while _global_hits and _global_hits[0] < now - 86_400:
-            _global_hits.popleft()
-        hits = _ip_hits[ip]
-        while hits and hits[0] < now - 3_600:
-            hits.popleft()
-        if not hits:                       # keep the map from growing unbounded
-            _ip_hits.pop(ip, None)
-            hits = _ip_hits[ip]
-        if len(_global_hits) >= _GLOBAL_PER_DAY:
-            raise HTTPException(status_code=429, detail={
-                "message": "This demo has reached its daily usage cap. Please try again tomorrow."})
-        if len(hits) >= _PER_IP_PER_HOUR:
-            raise HTTPException(status_code=429, detail={
-                "message": f"Rate limit reached ({_PER_IP_PER_HOUR}/hour). Please wait a bit and retry."})
-        hits.append(now)
-        _global_hits.append(now)
+def _make_rate_limiter(per_ip_hour: int, per_day: int, unit: str):
+    """Build a per-IP-hourly + global-daily limiter with its own in-memory counters."""
+    ip_hits: dict[str, deque] = defaultdict(deque)
+    global_hits: deque = deque()
+    lock = threading.Lock()
+
+    def enforce(request: Request):
+        now = time.time()
+        ip = _client_ip(request)
+        with lock:
+            while global_hits and global_hits[0] < now - 86_400:
+                global_hits.popleft()
+            hits = ip_hits[ip]
+            while hits and hits[0] < now - 3_600:
+                hits.popleft()
+            if not hits:                    # keep the map from growing unbounded
+                ip_hits.pop(ip, None)
+                hits = ip_hits[ip]
+            if len(global_hits) >= per_day:
+                raise HTTPException(status_code=429, detail={
+                    "message": f"This demo has reached its daily {unit} cap. Please try again tomorrow."})
+            if len(hits) >= per_ip_hour:
+                raise HTTPException(status_code=429, detail={
+                    "message": f"Rate limit reached ({per_ip_hour} {unit}s/hour). Please wait a bit and retry."})
+            hits.append(now)
+            global_hits.append(now)
+    return enforce
+
+
+_enforce_recommend_limit = _make_rate_limiter(
+    int(os.environ.get("RECOMMEND_PER_IP_PER_HOUR", "5")),
+    int(os.environ.get("RECOMMEND_GLOBAL_PER_DAY", "20")), "recommendation")
+_enforce_ask_limit = _make_rate_limiter(
+    int(os.environ.get("QA_PER_IP_PER_HOUR", "5")),
+    int(os.environ.get("QA_GLOBAL_PER_DAY", "20")), "question")
 
 
 # --- input schema: validated against the model's own choices/fields ------------
@@ -138,7 +147,7 @@ class RecommendRequest(Patient):
 @app.post("/recommend")
 def recommend(req: RecommendRequest, request: Request):
     """Predict the stage, then generate RAG-grounded recommendations (LLM)."""
-    _enforce_rate_limit(request)  # gate the paid LLM call before any work
+    _enforce_recommend_limit(request)  # gate the paid LLM call before any work
     from generate import generate_recommendations  # lazy: loads embedder/LLM on first call
 
     patient = req.model_dump()
@@ -171,4 +180,40 @@ def recommend(req: RecommendRequest, request: Request):
         "recommendations": result["recommendations"],
         "sources": result["sources"],
         "warnings": checks["warnings"] + result.get("warnings", []),
+    }
+
+
+class AskRequest(Patient):
+    # The patient fields (to rebuild the flagged profile + re-predict the stage),
+    # the comorbidity answers, the free-text follow-up question, and the earlier
+    # recommendation text so "why did you suggest X?" can be answered in context.
+    comorbidities: list[str] = Field(default_factory=list)
+    question: str
+    prior_recommendation: str = ""
+
+
+@app.post("/ask")
+def ask(req: AskRequest, request: Request):
+    """Answer a patient's diabetes follow-up question, grounded in the guidelines.
+
+    Off-topic questions are rejected for FREE by a local embedding gate (no LLM
+    call), so they can't burn tokens. On-topic questions are rate-limited and
+    answered from retrieved guideline context."""
+    _enforce_ask_limit(request)
+    from generate import answer_question  # lazy: shares the embedder/retriever/LLM
+
+    patient = req.model_dump()
+    comorbidities = patient.pop("comorbidities", [])
+    question = (patient.pop("question", "") or "").strip()
+    prior = patient.pop("prior_recommendation", "")
+    if not question:
+        raise HTTPException(status_code=400, detail={"message": "Please enter a question."})
+
+    stage, _ = P.predict_patient(patient)
+    result = answer_question(question, stage, comorbidities, patient, prior)
+    return {
+        "off_topic": result["off_topic"],
+        "answer": result["answer"],
+        "sources": result["sources"],
+        "warnings": result["warnings"],
     }
